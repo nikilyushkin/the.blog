@@ -182,7 +182,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = "Nik here <nik@inside.heynik.blog>"
+DEFAULT_FROM_EMAIL = "Nik here <hi@nikilyushk.in>"
 
 # Telegram
 

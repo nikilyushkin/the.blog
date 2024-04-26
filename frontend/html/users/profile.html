@@ -16,13 +16,13 @@
     <div class="block profile">
         <div class="block-description-center">
             {% if request.user.is_superuser %}
-                <a href="/godmode/" class="button button-blue">Админка</a>
+                <a href="/godmode/" class="button button-blue">Adminka</a>
             {% endif %}
 
-            <a href="{% url "logout" %}" class="button button-red">Выйти</a>
+            <a href="{% url "logout" %}" class="button button-red">Logout</a>
         </div>
 
-        <div class="block-title">👤 Настройки профиля</div>
+        <div class="block-title">👤 Profile Settings</div>
 
         <form action="{% url "profile" %}" method="post" class="profile-edit-form">
             {% csrf_token %}
@@ -50,7 +50,7 @@
                 {% endif %}
             </div>
 
-            <button type="submit" class="button">Сохранить</button>
+            <button type="submit" class="button">Save</button>
         </form>
     </div>
 </div>
