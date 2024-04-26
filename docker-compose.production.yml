@@ -5,7 +5,6 @@ services:
     command: make docker-run-production
     container_name: blog_app
     environment:
-      - TZ="Pacific/Auckland"
       - PYTHONUNBUFFERED=1
       - DEBUG=false
       - POSTGRES_DB=vas3k_blog
@@ -37,7 +36,6 @@ services:
     container_name: blog_postgres
     restart: always
     environment:
-      - TZ="Pacific/Auckland"
       POSTGRES_USER: vas3k
       POSTGRES_PASSWORD: vas3k
       POSTGRES_DB: vas3k_blog
