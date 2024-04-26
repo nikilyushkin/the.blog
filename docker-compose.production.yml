@@ -37,6 +37,6 @@ services:
       POSTGRES_PASSWORD: vas3k
       POSTGRES_DB: vas3k_blog
     volumes:
-      - /home/vas3k/pgdata_vas3k_blog:/var/lib/postgresql/data:rw
+      - /home/ubuntu/pgdata_heynik_blog:/var/lib/postgresql/data:rw
     ports:
       - "127.0.0.1:54324:5432"
