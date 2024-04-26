@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
     <head>
         <title>{% block title %}{{ settings.TITLE | safe }}{% endblock %}</title>
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
         <meta name="keywords" content="{{ settings.KEYWORDS }}">
         <meta name="author" content="{{ settings.AUTHOR }}">
         <!--meta name="yandex-verification" content=""-->
-        <meta name="google-site-verification" content="">
+        <!--meta name="google-site-verification" content=""-->
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
         <meta name="format-detection" content="telephone=no">
         <link rel="canonical" href="https://{{ settings.APP_HOST }}{{ request.get_full_path_info }}">

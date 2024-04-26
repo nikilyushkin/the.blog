@@ -53,7 +53,7 @@ def generate_epub(story):
             uid="chap_{}".format(index),
             title=story.title,
             file_name="chap_{}.xhtml".format(index),
-            lang="ru"
+            lang="en"
         )
         chapter.content = content
         chapter.add_item(css)
