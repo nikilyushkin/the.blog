@@ -21,14 +21,14 @@
 
         <div class="comments-form-footer">
             <span>
-                Можно использовать <a href="https://doka.guide/tools/markdown/" target="_blank">Markdown</a>
+                You can use <a href="https://doka.guide/tools/markdown/" target="_blank">Markdown</a>
             </span>
 
-            <input type="submit" tabindex="3" class="button comments-form-submit" value="Отправить">
+            <input type="submit" tabindex="3" class="button comments-form-submit" value="Post">
         </div>
     </form>
 {% else %}
     <div class="comments-form-login">
-        <a href="{% url "login" %}" class="button button-big">Войдите, чтобы написать комментарий</a>
+        <a href="{% url "login" %}" class="button button-big">Login to comment</a>
     </div>
 {% endif %}

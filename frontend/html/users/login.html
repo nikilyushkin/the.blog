@@ -13,15 +13,7 @@
         поэтому теперь комментирование доступно только для патронов.
     </div>
 
-    <div class="block-description">
-        <a href="{% url "login_patreon" %}?goto={{ request.scheme }}://{{ request.get_host }}{{ story.get_absolute_url }}" class="button">
-            Войти через Патреон
-        </a>
 
-        <a href="{% url "login_club" %}?goto={{ request.scheme }}://{{ request.get_host }}{{ story.get_absolute_url }}" class="button">
-            Войти через Вастрик.Клуб
-        </a>
-    </div>
 
 {#    <div class="block-description">#}
 {#        Однако, в тестовом режиме у нас есть еще и авторизация через телеграм, с ограничением 1 комментарий в сутки.#}

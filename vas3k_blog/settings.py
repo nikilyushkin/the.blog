@@ -12,11 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY") or "wow so secret"
 DEBUG = (os.getenv("DEBUG") != "false")
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "vas3k.blog", "vas3k.ru"]
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "heynik.blog", "www.heynik.blog", "localhost"]
 INTERNAL_IPS = ["127.0.0.1"]
 
 ADMINS = [
-    ("vas3k", "me@vas3k.ru"),
+    ("nikilyushkin", "me@nikilyushk.in"),
 ]
 
 
@@ -124,7 +124,7 @@ if MIGRATE:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.authn.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
 ]
 
@@ -132,8 +132,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "ru"
-TIME_ZONE = "UTC"
+LANGUAGE_CODE = "en"
+TIME_ZONE = "Pacific/Auckland"
 USE_I18N = True
 USE_TZ = False
 
@@ -154,24 +154,24 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Auth
 
-CLUB_BASE_URL = "https://vas3k.club"
-CLUB_OPENID_CONFIG = {
-    "name": "club",
-    "client_id": "vas3k_blog",
-    "client_secret": os.getenv("CLUB_OPENID_CONFIG_SECRET") or "vas3k_blog",
-    "api_base_url": CLUB_BASE_URL,
-    "server_metadata_url": f"{CLUB_BASE_URL}/.well-known/openid-configuration",
-    "client_kwargs": {"scope": "openid"},
-}
+#CLUB_BASE_URL = "https://vas3k.club"
+#CLUB_OPENID_CONFIG = {
+#    "name": "club",
+#    "client_id": "vas3k_blog",
+#    "client_secret": os.getenv("CLUB_OPENID_CONFIG_SECRET") or "vas3k_blog",
+#    "api_base_url": CLUB_BASE_URL,
+#    "server_metadata_url": f"{CLUB_BASE_URL}/.well-known/openid-configuration",
+#    "client_kwargs": {"scope": "openid"},
+#}
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-PATREON_AUTH_URL = "https://www.patreon.com/oauth2/authorize"
-PATREON_TOKEN_URL = "https://www.patreon.com/api/oauth2/token"
-PATREON_USER_URL = "https://www.patreon.com/api/oauth2/v2/identity"
-PATREON_CLIENT_ID = os.getenv("PATREON_CLIENT_ID")
-PATREON_CLIENT_SECRET = os.getenv("PATREON_CLIENT_SECRET")
-PATREON_SCOPE = "identity identity[email]"
+#PATREON_AUTH_URL = "https://www.patreon.com/oauth2/authorize"
+#PATREON_TOKEN_URL = "https://www.patreon.com/api/oauth2/token"
+#PATREON_USER_URL = "https://www.patreon.com/api/oauth2/v2/identity"
+#PATREON_CLIENT_ID = os.getenv("PATREON_CLIENT_ID")
+#PATREON_CLIENT_SECRET = os.getenv("PATREON_CLIENT_SECRET")
+#PATREON_SCOPE = "identity identity[email]"
 
 # Email
 
@@ -182,7 +182,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = "Вастрик <inside@inside.vas3k.ru>"
+DEFAULT_FROM_EMAIL = "Nik here <nik@inside.heynik.blog>"
 
 # Telegram
 
@@ -196,20 +196,17 @@ AUTH_USER_MODEL = "users.User"
 SESSION_COOKIE_AGE = 300 * 24 * 60 * 60  # 300 days
 SENTRY_DSN = os.getenv("SENTRY_DSN")
 
-APP_HOST = "vas3k.blog"
-MIRRORS = ["vas3k.ru"]
+APP_HOST = "heynik.blog"
+MIRRORS = ["nikilyushk.in"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://vas3k.blog",
-    "https://*.vas3k.blog",
-    "https://vas3k.ru",
-    "https://*.vas3k.ru",
+    "https://heynik.blog",
+    "https://*.heynik.blog",
 ]
 
-AUTHOR = "@vas3k"
-TITLE = "Вастрик"
-DESCRIPTION = "Авторский блог о выживании в мире технологий и происходящем вокруг киберпанке"
-
+AUTHOR = "@nikilyushkin"
+TITLE = "Nik ILyushkin"
+DESCRIPTION = "Author blog | Delve into the entrepreneurial journey with insights on common mistakes, the relentless pursuit of success, and principles that work."
 STYLES_HASH = os.getenv("GITHUB_SHA") or str(randint(1, 10000))
 
 MAX_COMMENTS_PER_24H = 50
