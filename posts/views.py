@@ -18,24 +18,24 @@ def index(request):
 
     # latest posts
     latest_posts = Post.visible_objects()\
-        .filter(type__in=["blog", "world"], is_visible_on_home_page=True)\
+        .filter(type__in=["blog", "books"], is_visible_on_home_page=True)\
         .exclude(id=top_post.id if top_post else None)\
         .order_by("-published_at")[:6]
 
     # books posts
-    latest_world_posts = Post.visible_objects()\
+    latest_books_posts = Post.visible_objects()\
         .filter(type="books", is_visible_on_home_page=True)\
         .exclude(id__in=[post.id for post in latest_posts] if latest_posts else [])\
         .order_by("-published_at")[:3]
-    top_world_posts = Post.visible_objects()\
+    top_books_posts = Post.visible_objects()\
         .filter(type="books", is_visible_on_home_page=True)\
         .exclude(id__in=[
             top_post.id if top_post else None,
             *[post.id for post in latest_posts],
-            *[post.id for post in latest_world_posts],
+            *[post.id for post in latest_books_posts],
         ])\
         .order_by("-view_count")[:5]
-    world_posts = list(latest_world_posts) + list(top_world_posts)
+    books_posts = list(latest_books_posts) + list(top_books_posts)
 
     # featured posts
     best_posts = Post.visible_objects()\
@@ -73,7 +73,7 @@ def index(request):
                 "title": "Books",
                 "template": "index/posts3.html",
                 "url": "/books/",
-                "posts": world_posts
+                "posts": books_posts
             },
             {
                 "title": "Top posts",
