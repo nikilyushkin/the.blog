@@ -4,6 +4,9 @@ ENV PIP_NO_CACHE_DIR=true
 ENV POETRY_VIRTUALENVS_CREATE=false
 ENV PIP_DISABLE_PIP_VERSION_CHECK=true
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ="Pacific/Auckland"
+
+RUN date
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -yq \
