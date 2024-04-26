@@ -11,7 +11,7 @@ from posts.sitemaps import sitemaps
 from posts.views import index, show_post, list_posts, edit_post
 from rss.feeds import FullFeed, PublicFeed, PrivateFeed
 from users.views import profile, robots
-from authn.views import log_in, log_out, login_club, login_patreon, club_callback, patreon_callback
+from authn.views import log_in, log_out
 
 urlpatterns = [
     path("", index, name="index"),
@@ -20,10 +20,7 @@ urlpatterns = [
 
     path(r"login/", log_in, name="login"),
     path(r"logout/", log_out, name="logout"),
-    path(r"auth/login/club/", login_club, name="login_club"),
-    path(r"auth/login/patreon/", login_patreon, name="login_patreon"),
-    path(r"auth/club_callback/", club_callback, name="club_callback"),
-    path(r"auth/patreon_callback/", patreon_callback, name="patreon_callback"),
+
     path(r"profile/", profile, name="profile"),
 
     path(r"donate/", donate, name="donate"),

@@ -34,7 +34,7 @@
     {% endif %}
 
     <p>
-        <a href="https://vas3k.blog/{{ post.type }}/{{ post.slug }}/" class="button button-big">
+        <a href="https://heynik.blog/{{ post.type }}/{{ post.slug }}/" class="button button-big">
             👉 Читать пост
         </a>
     </p>
@@ -50,11 +50,11 @@
 
     <p>
         <a href="https://vas3k.blog/unsubscribe/{{ subscriber.secret_hash }}/" class="button">
-            ☠️ Отписаться
+            ☠️ Unsubscribe
         </a>
     </p>
 {% endblock %}
 
 {% block footer %}
-    <a href="https://vas3k.blog/unsubscribe/{{ subscriber.secret_hash }}/" style="display: inline-block; float: right;">Отписаться</a>
+    <a href="https://heynik.blog/unsubscribe/{{ subscriber.secret_hash }}/" style="display: inline-block; float: right;">Unsubscribe</a>
 {% endblock %}

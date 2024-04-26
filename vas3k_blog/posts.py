@@ -5,7 +5,7 @@ DEFAULT_LIST_ITEMS_PER_PAGE = 30
 
 @dataclass
 class PostTypeConfig:
-    name: str = "Посты"
+    name: str = "Posts"
     list_items_per_page: int = DEFAULT_LIST_ITEMS_PER_PAGE
     card_template: str = "posts/cards/horizontal.html",
     list_template: str = "posts/lists/layout.html",
@@ -14,42 +14,42 @@ class PostTypeConfig:
 
 POST_TYPES: dict[str, PostTypeConfig] = {
     "blog": PostTypeConfig(
-        name="Блог",
+        name="Blog",
         list_items_per_page=30,
         card_template="posts/cards/horizontal.html",
         list_template="posts/lists/blog.html",
         show_template="posts/full/blog.html",
     ),
-    "notes": PostTypeConfig(
-        name="Заметки",
+    "thoughts": PostTypeConfig(
+        name="Thoughts",
         list_items_per_page=50,
         card_template="posts/cards/vertical.html",
         list_template="posts/lists/notes.html",
         show_template="posts/full/notes.html",
     ),
-    "world": PostTypeConfig(
-        name="Путешествия",
+    "books": PostTypeConfig(
+        name="Books",
         list_items_per_page=30,
         card_template="posts/cards/horizontal.html",
         list_template="posts/lists/blog.html",
         show_template="posts/full/blog.html",
     ),
     "gallery": PostTypeConfig(
-        name="Галлерея",
+        name="Gallery",
         list_items_per_page=30,
         card_template="posts/cards/vertical.html",
         list_template="posts/lists/blog.html",
         show_template="posts/full/legacy/gallery.html",
     ),
     "inside": PostTypeConfig(
-        name="Вастрик.Инсайд",
+        name="Heynik.Inside",
         list_items_per_page=30,
         card_template="posts/cards/vertical.html",
         list_template="posts/lists/notes.html",
         show_template="posts/full/notes.html",
     ),
-    "365": PostTypeConfig(
-        name="Заметки",
+    "notes": PostTypeConfig(
+        name="Notes",
         list_items_per_page=50,
         card_template="posts/cards/vertical.html",
         list_template="posts/lists/notes.html",

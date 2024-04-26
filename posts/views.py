@@ -22,13 +22,13 @@ def index(request):
         .exclude(id=top_post.id if top_post else None)\
         .order_by("-published_at")[:6]
 
-    # travel posts
+    # books posts
     latest_world_posts = Post.visible_objects()\
-        .filter(type="world", is_visible_on_home_page=True)\
+        .filter(type="books", is_visible_on_home_page=True)\
         .exclude(id__in=[post.id for post in latest_posts] if latest_posts else [])\
         .order_by("-published_at")[:3]
     top_world_posts = Post.visible_objects()\
-        .filter(type="world", is_visible_on_home_page=True)\
+        .filter(type="books", is_visible_on_home_page=True)\
         .exclude(id__in=[
             top_post.id if top_post else None,
             *[post.id for post in latest_posts],
@@ -44,7 +44,7 @@ def index(request):
 
     # notes
     notes_posts = Post.visible_objects()\
-        .filter(type="notes", is_visible_on_home_page=True)\
+        .filter(type="thoughts", is_visible_on_home_page=True)\
         .order_by("-published_at")[:11]
 
     return render(request, "index.html", {
@@ -59,29 +59,29 @@ def index(request):
                 "posts": latest_posts
             },
             {
-                "title": "Обо мне",
+                "title": "About me",
                 "template": "index/about.html",
                 "posts": []
             },
             {
-                "title": "Заметки",
-                "url": "/notes/",
+                "title": "Thoughts",
+                "url": "/thoughts/",
                 "template": "index/posts4.html",
                 "posts": notes_posts
             },
             {
-                "title": "Отвратительные путешествия",
+                "title": "Books",
                 "template": "index/posts3.html",
-                "url": "/world/",
+                "url": "/books/",
                 "posts": world_posts
             },
             {
-                "title": "Нетленки",
+                "title": "Top posts",
                 "template": "index/posts2.html",
                 "posts": best_posts
             },
             {
-                "title": "Проекты",
+                "title": "Projects",
                 "template": "index/projects.html",
                 "posts": []
             }
