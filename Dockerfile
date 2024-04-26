@@ -11,7 +11,6 @@ RUN apt-get update \
       python3 \
       python3-dev \
       python3-pip \
-      python3-packaging \
       libpq-dev \
       make \
     && rm -rf /var/lib/apt/lists/*
