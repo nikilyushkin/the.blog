@@ -18,6 +18,8 @@ RUN apt-get update \
 WORKDIR /app
 COPY . /app
 
+RUN pip3 install tzdata
+RUN pip3 install pytz
 RUN pip3 install poetry
 RUN poetry install --no-interaction --no-ansi
 
