@@ -22,6 +22,9 @@ services:
       - EMAIL_HOST_PASSWORD
     env_file:
       - .env
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     restart: always
     depends_on:
       - postgres
@@ -38,5 +41,7 @@ services:
       POSTGRES_DB: vas3k_blog
     volumes:
       - /home/ubuntu/pgdata_heynik_blog:/var/lib/postgresql/data:rw
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - "127.0.0.1:54324:5432"
