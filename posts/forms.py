@@ -6,22 +6,22 @@ from posts.models import Post
 
 class PostEditForm(ModelForm):
     title = forms.CharField(
-        label="Заголовок",
+        label="Title",
         required=True,
     )
 
     subtitle = forms.CharField(
-        label="Подзаголовок",
+        label="Subtitle",
         required=False,
     )
 
     image = forms.URLField(
-        label="Картинка",
+        label="Image",
         required=False,
     )
 
     text = forms.CharField(
-        label="Текст",
+        label="Text",
         min_length=0,
         max_length=100000,
         required=True,

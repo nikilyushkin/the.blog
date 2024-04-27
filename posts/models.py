@@ -88,18 +88,18 @@ class Post(models.Model):
 
     def season_grouper(self):
         groups = {
-            1: "Зима",
-            2: "Зима",
-            3: "Весна",
-            4: "Весна",
-            5: "Весна",
-            6: "Лето",
-            7: "Лето",
-            8: "Лето",
-            9: "Лето",
-            10: "Осень",
-            11: "Осень",
-            12: "Зима",
+            1: "Summer",
+            2: "Summer",
+            3: "Fall",
+            4: "Fall",
+            5: "Fall",
+            6: "Winter",
+            7: "Winter",
+            8: "Winter",
+            9: "Spring",
+            10: "Spring",
+            11: "Spring",
+            12: "Summer",
         }
         month = int(self.created_at.strftime("%-m"))
         year = int(self.created_at.strftime("%Y"))

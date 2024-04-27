@@ -8,13 +8,13 @@ from users.models import User
 
 class UserEditForm(ModelForm):
     username = forms.CharField(
-        label="Отображаемое имя",
+        label="Username (will be shown next to your comments)",
         required=True,
         max_length=32
     )
 
     avatar = forms.ChoiceField(
-        label="Новый моднейший аватар",
+        label="Fancy Avatar",
         choices=[(avatar, avatar) for avatar in AVATARS],
         widget=forms.RadioSelect,
         required=False,
