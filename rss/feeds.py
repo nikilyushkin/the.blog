@@ -7,7 +7,7 @@ from django.conf import settings
 
 
 class FullFeed(Feed):
-    title = "Вастрик.ру"
+    title = "heynik.blog"
     link = "/rss/"
     description = settings.DESCRIPTION
 
@@ -22,10 +22,10 @@ class FullFeed(Feed):
         return item.title
 
     def author_name(self):
-        return "Вастрик"
+        return "Nik ILyushkin"
 
     def item_copyright(self):
-        return "vas3k.blog"
+        return "heynik.blog"
 
     def item_pubdate(self, item):
         return item.created_at
@@ -49,12 +49,12 @@ class FullFeed(Feed):
 
 
 class PrivateFeed(FullFeed):
-    title = "Вастрик.ру: Секретный фид"
+    title = "HeyNik.blog: Secret Feed"
     link = "/rss/private/"
 
 
 class PublicFeed(FullFeed):
-    title = "Вастрик.ру: Только публичные посты"
+    title = "HeyNik.blog: Public Posts Feed"
     link = "/rss/public/"
 
     def items(self):

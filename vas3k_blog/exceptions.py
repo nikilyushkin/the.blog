@@ -1,7 +1,7 @@
 class BlogException(Exception):
     default_code = "error"
-    default_title = "Что-то пошло не так"
-    default_message = "Никто не знает что произошло :("
+    default_title = "Something is wrong"
+    default_message = "Noone knows what is wrong though :("
 
     def __init__(self, code=None, title=None, message=None, data=None):
         self.code = code or self.default_code
@@ -12,55 +12,54 @@ class BlogException(Exception):
 
 class BadRequest(BlogException):
     default_code = "bad-request"
-    default_title = "Неправильный параметр запроса"
-    default_message = "Что-то сломалось"
+    default_title = "Bad request"
+    default_message = "Something is broken again"
 
 
 class NotFound(BlogException):
     default_code = "not-found"
-    default_title = "Не найдено"
+    default_title = "Not Found"
     default_message = ""
 
 
 class AccessDenied(BlogException):
     default_code = "access-forbidden"
-    default_title = "Вам сюда нельзя"
-    default_message = "Атата"
+    default_title = "You can't be here"
+    default_message = "Naughty, naughty!"
 
 
 class RateLimitException(BlogException):
     default_code = "rate-limit"
-    default_title = "Вы создали слишком много постов или комментов сегодня"
-    default_message = "Пожалуйста, остановитесь"
+    default_title = "You have created too many posts or comments today"
+    default_message = "Please, stop."
 
 
 class ContentDuplicated(BlogException):
     default_code = "duplicated-content"
-    default_title = "Обнаружен дубликат!"
-    default_message = "Кажется, вы пытаетесь опубликовать то же самое повторно. " \
-                      "Проверьте всё ли в порядке."
+    default_title = "Hm..."
+    default_message = "It seems you are trying to post the same thing again. Please check if everything is alright."
 
 
 class InsufficientFunds(BlogException):
     default_code = "insufficient-funds"
-    default_title = "Недостаточно средств"
+    default_title = "Insufficient Funds"
 
 
 class URLParsingException(BlogException):
     default_code = "url-parser-exception"
-    default_title = "Не удалось распарсить URL"
+    default_title = "URL Parser has failed"
     default_message = ""
 
 
 class InvalidCode(BlogException):
     default_code = "invalid-code"
-    default_title = "Вы ввели неправильный код"
-    default_message = "Введите или запросите его еще раз. Через несколько неправильных попыток коды удаляются"
+    default_title = "Invalid Code"
+    default_message = "Enter it or request it again. After several incorrect attempts, codes are deleted"
 
 
 class ApiInsufficientFunds(BlogException):
     default_code = "api-insufficient-funds"
-    default_title = "Недостаточно средств"
+    default_title = "Insufficient Funds"
 
 
 class ApiException(BlogException):
@@ -69,7 +68,7 @@ class ApiException(BlogException):
 
 class ApiBadRequest(BlogException):
     default_code = "bad-request"
-    default_title = "Неправильный параметр запроса"
+    default_title = "Bad Request"
 
 
 class ApiAuthRequired(ApiException):

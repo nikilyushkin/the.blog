@@ -22,7 +22,7 @@ def create_comment(request):
     if not post.is_commentable:
         return render(
             request, "error.html", {
-                "message": "Нельзя комментировать этот пост"
+                "message": "Comments are disabled for this post"
             }
         )
 
@@ -33,7 +33,7 @@ def create_comment(request):
     ).count()
     if same_ip_comments_24h >= settings.MAX_COMMENTS_PER_24H:
         return HttpResponseBadRequest(
-            "Вы оставили слишком много комментариев, остановитесь"
+            "You left enough comments for today, thank you, but please stop."
         )
 
     comment = Comment.objects.create(
@@ -71,4 +71,4 @@ def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     comment.delete()
 
-    return HttpResponse("☠️ Комментарий удален")
+    return HttpResponse("☠️ Deleted")

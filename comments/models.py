@@ -45,7 +45,7 @@ class Comment(models.Model):
 
     def save(self, *args, **kwargs):
         if self.reply_to and self.reply_to.reply_to and self.reply_to.reply_to.reply_to_id:
-            raise BadRequest(message="3 уровня комментариев это максимум")
+            raise BadRequest(message="3 level thread is a maximum")
 
         self.updated_at = datetime.utcnow()
         return super().save(*args, **kwargs)
