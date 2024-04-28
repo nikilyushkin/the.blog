@@ -75,11 +75,11 @@ def index(request):
                 "url": "/books/",
                 "posts": books_posts
             },
-            {
-                "title": "Top posts",
-                "template": "index/posts2.html",
-                "posts": best_posts
-            },
+#            {
+#                "title": "Top posts",
+#                "template": "index/posts2.html",
+#                "posts": best_posts
+#            },
             {
                 "title": "Projects",
                 "template": "index/projects.html",
