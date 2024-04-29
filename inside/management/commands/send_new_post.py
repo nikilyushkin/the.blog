@@ -31,7 +31,7 @@ class Command(BaseCommand):
         if production:
             subscribers = Subscriber.objects.filter(is_confirmed=True).all()
         else:
-            subscribers = Subscriber.objects.filter(email="me@vas3k.ru").all()
+            subscribers = Subscriber.objects.filter(email="hi@nikilyushk.in").all()
 
         # Step 3. Confirm
         auto_confirm = options.get("auto_confirm")
@@ -58,7 +58,7 @@ class Command(BaseCommand):
             try:
                 send_vas3k_email(
                     subscriber=subscriber,
-                    subject=f"Новый пост в блоге Вастрика: {post.title}",
+                    subject=f"New post from Nik: {post.title}",
                     html=html
                 )
             except Exception as ex:

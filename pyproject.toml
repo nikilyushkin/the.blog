@@ -2,7 +2,7 @@
 name = "vas3k_blog"
 version = "0.1.0"
 description = ""
-authors = ["Vasily Zubarev <me@vas3k.ru>"]
+authors = ["Nik Ray <hi@nikilyushk.in>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
