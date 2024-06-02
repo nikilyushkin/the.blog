@@ -15,7 +15,12 @@
     <div class="header-menu hide-on-iphone" id="header-menu" hx-boost="true">
         <a href="{% url "list_posts" "all" %}" class="button button-inverted header-menu-item">
             <span>✏️</span>
-            <span>Posts</span>
+            <span>All Posts</span>
+        </a>
+
+        <a href="{% url "list_posts" "thoughts" %}" class="button button-inverted header-menu-item">
+            <span>🧠</span>
+            <span>Thoughts</span>
         </a>
 
         <a href="{% url "list_posts" "books" %}" class="button button-inverted header-menu-item">
@@ -28,10 +33,10 @@
             <span>Subscribe</span>
         </a>
 
-        <a href="{% url "donate" %}" class="button button-inverted header-menu-item">
+        <!--a href="{% url "donate" %}" class="button button-inverted header-menu-item">
             <span>👍</span>
             <span>Donate</span>
-        </a>
+        </a-->
 
         <div class="button button-inverted button-round header-menu-item header-menu-round" onclick="return toggleHeaderSearch(event, '#header-search');">
             🔍
