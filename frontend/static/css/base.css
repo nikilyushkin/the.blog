@@ -97,7 +97,7 @@ h2 + h3,
     margin-bottom: 30px;
     box-sizing: border-box;
     box-shadow: var(--block-shadow);
-    background-color: var(--block-bg-color);
+      background-color: var(--block-bg-color);
     border-radius: var(--block-border-radius);
 }
 
