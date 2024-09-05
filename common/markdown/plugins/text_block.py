@@ -24,7 +24,7 @@ def render_text_block(renderer, text, **attrs):
     classes, ids = parse_classes_and_ids(attrs.get("classes") or "")
     return f'<div class="block-text {" ".join(classes)}" id="{" ".join(ids)}">' \
            f'{text}' \
-           f'<br><br>[commentable {block_counter}]</div>\n'
+           f'</div>\n'
 
 
 def text_block(md):
