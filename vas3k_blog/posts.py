@@ -22,10 +22,10 @@ POST_TYPES: dict[str, PostTypeConfig] = {
     ),
     "thoughts": PostTypeConfig(
         name="Thoughts",
-        list_items_per_page=50,
+        list_items_per_page=30,
         card_template="posts/cards/vertical.html",
-        list_template="posts/lists/notes.html",
-        show_template="posts/full/notes.html",
+        list_template="posts/lists/blog.html",
+        show_template="posts/full/blog.html",
     ),
     "books": PostTypeConfig(
         name="Books",
@@ -42,7 +42,7 @@ POST_TYPES: dict[str, PostTypeConfig] = {
         show_template="posts/full/legacy/gallery.html",
     ),
     "inside": PostTypeConfig(
-        name="Heynik.Inside",
+        name="Inside",
         list_items_per_page=30,
         card_template="posts/cards/vertical.html",
         list_template="posts/lists/notes.html",
@@ -66,10 +66,5 @@ def post_config_by_type(post_type):
 
 
 INDEX_PAGE_BEST_POSTS = [
-    "quantum_computing",
-    "computational_photography",
-    "machine_learning",
-    "team",
-    "touchbar",
-    "blockchain",
+    "organizational-design-key-to-company-success",
 ]
