@@ -24,8 +24,8 @@ POST_TYPES: dict[str, PostTypeConfig] = {
         name="Thoughts",
         list_items_per_page=30,
         card_template="posts/cards/vertical.html",
-        list_template="posts/lists/blog.html",
-        show_template="posts/full/blog.html",
+        list_template="posts/lists/notes.html",
+        show_template="posts/full/notes.html",
     ),
     "books": PostTypeConfig(
         name="Books",
