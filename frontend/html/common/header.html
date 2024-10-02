@@ -2,7 +2,7 @@
 
 <div class="header h-card">
     <a href="{% url "index" %}" class="header-logo u-url">
-        <!--img src="{% static "images/logo.png" %}" alt="" class="header-logo-image u-photo"-->
+        <img src="{% static "images/logo.png" %}" alt="" class="header-logo-image u-photo">
         <span class="header-logo-title p-name">Hey, Nik</span>
     </a>
 
@@ -13,24 +13,25 @@
     </div>
 
     <div class="header-menu hide-on-iphone" id="header-menu" hx-boost="true">
-        <a href="{% url "list_posts" "all" %}" class="button button-inverted header-menu-item">
-            <span>✏️</span>
-            <span>All Posts</span>
-        </a>
 
         <a href="{% url "list_posts" "thoughts" %}" class="button button-inverted header-menu-item">
             <span>🧠</span>
-            <span>Thoughts</span>
+            <span>Think</span>
         </a>
 
         <a href="{% url "list_posts" "books" %}" class="button button-inverted header-menu-item">
             <span>📚</span>
-            <span>Books</span>
+            <span>Read</span>
         </a>
 
         <a href="{% url "subscribe" %}" class="button button-inverted header-menu-item">
             <span>✅</span>
             <span>Subscribe</span>
+        </a>
+
+        <a href="{% url "list_posts" "all" %}" class="button button-inverted header-menu-item">
+            <span>🗞️️</span>
+            <span>All Posts</span>
         </a>
 
         <!--a href="{% url "donate" %}" class="button button-inverted header-menu-item">
