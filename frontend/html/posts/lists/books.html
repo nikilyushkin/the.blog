@@ -37,7 +37,18 @@
         </ul>
     </div>
 </section>
-<div class="container">
+
+<section class="container container-width-max">
+    <div class="cards-group cards-group-3x">
+        {% for post in posts %}
+            {% include "posts/cards/horizontal.html" %}
+        {% endfor %}
+    </div>
+
+    {% paginator posts %}
+</section>
+
+<!--div class="container">
     <div class="cards-group cards-group-1x">
         {% for post in posts %}
             {% include "posts/cards/aspect.html" %}
@@ -45,5 +56,5 @@
     </div>
 
     {% paginator posts %}
-</div>
+</div-->
 {% endblock %}
