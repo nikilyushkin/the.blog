@@ -1,0 +1,54 @@
+{% extends "posts/lists/layout.html" %}
+{% load static %}
+{% load text_filters %}
+{% load posts %}
+{% load paginator %}
+
+{% block body %}
+<section class="container block index-block-about">
+    <div class="index-block-about-description">
+        <p>
+            I love reading.
+        </p>
+
+        <p>
+            I write reviews / key points summaries from books that I enjoyed the most.
+        <p>
+            Many smart people say: "You need to read a lot".  Why read a lot?
+        </p>
+        <ul>
+            <li>"I just sit in my office and read all day" – Warren Buffett</li>
+            <li>"Keep your brain on a healthy diet: at least one day a week, disconnect from work; read a lot, it doesn't matter what, just read; give up cheap dopamine: Facebook, Instagram, YouTube" – Daniel Gross</li>
+            <li>"A really good book costs $10-$20 and can change your life. I don't think you should skimp on books. I didn't skimp on books even when money was tight. I always spent money on books."</li>
+            <li>"It almost doesn't matter what you read. If you read constantly, sooner or later you'll read enough that your interest will lead you to topics that are really important to you and will radically change your life." – Naval Ravikant</li>
+        </ul>>
+        <p>
+            <a href="https://gatesnotes.com/" target="_blank">Website with book recommendations</a>> from Bill Gates
+        </p>
+    </div>
+</section>
+
+
+<div class="container">
+    {% for post_card_type, posts in post_blocks %}
+        {% if post_card_type == "posts/cards/vertical.html" %}
+            <div class="cards-group cards-group-3x">
+                {% for post in posts %}
+                    {% include "posts/cards/vertical.html" %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="cards-group cards-group-1x">
+                {% for post in posts %}
+                    {% include "posts/cards/horizontal.html" %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="clearfix50"></div>
+    {% endfor %}
+
+    <div class="container">
+        {% paginator posts %}
+    </div>
+</div>
+{% endblock %}
