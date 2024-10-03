@@ -31,7 +31,7 @@ POST_TYPES: dict[str, PostTypeConfig] = {
         name="Books",
         list_items_per_page=30,
         card_template="posts/cards/vertical.html",
-        list_template="posts/lists/blog.html",
+        list_template="posts/lists/books.html",
         show_template="posts/full/blog.html",
     ),
     "gallery": PostTypeConfig(
