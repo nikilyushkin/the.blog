@@ -67,4 +67,5 @@ def post_config_by_type(post_type):
 
 INDEX_PAGE_BEST_POSTS = [
     "organizational-design-key-to-company-success",
+    "sabotage-product-guide",
 ]
