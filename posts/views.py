@@ -68,16 +68,16 @@ def index(request):
                 "posts": []
             },
             {
-                "title": "Books",
-                "template": "index/posts3.html",
-                "url": "/books/",
-                "posts": books_posts
-            },
-            {
                 "title": "Thoughts",
                 "url": "/thoughts/",
                 "template": "index/posts4.html",
                 "posts": notes_posts
+            },
+            {
+                "title": "Books",
+                "template": "index/posts3.html",
+                "url": "/books/",
+                "posts": books_posts
             },
 #            {
 #                "title": "Top posts",
