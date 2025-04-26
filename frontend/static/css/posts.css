@@ -729,7 +729,6 @@
     color: var(--text-color);
     box-shadow: var(--block-shadow);
     border-radius: var(--block-border-radius);
-    max-width: 900px;
 }
 
     .post-subscribe-header {
