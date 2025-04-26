@@ -13,7 +13,7 @@
     font-size: 125%;
     line-height: 1.67;
     color: #464848;
-#    font-family: var(--serif-font);
+    font-family: var(--serif-font);
     font-weight: 300;
 }
 
@@ -56,7 +56,7 @@
     .post .header-2 small,
     .post .header-3 small,
     .post .header-4 small {
-         opacity: 0.9;
+        opacity: 0.5;
     }
 
     .post h1 a,
@@ -65,7 +65,7 @@
     .post .header-1 a,
     .post .header-2 a,
     .post .header-3 a {
-        color: #464848;
+        opacity: 0.9;
     }
 
     .post hr {
@@ -731,8 +731,6 @@
     margin-top: 100px;
     background-color: var(--block-bg-color);
     color: var(--text-color);
-    box-shadow: var(--block-shadow);
-    border-radius: var(--block-border-radius);
 }
 
     .post-subscribe-header {
@@ -840,7 +838,6 @@
             display: inline-block;
             background-color: var(--card-title-color);
             color: var(--card-title-bg-color);
-            background-color: #f5f6f8;
             padding: 5px 20px;
             z-index: 10;
         }
@@ -865,4 +862,4 @@
 
 .width-75 {
     width: 75%;
-}
+}gi
