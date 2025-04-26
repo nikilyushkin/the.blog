@@ -56,7 +56,7 @@
     .post .header-2 small,
     .post .header-3 small,
     .post .header-4 small {
-        opacity: 0.5;
+         opacity: 0.9;
     }
 
     .post h1 a,
@@ -176,6 +176,10 @@
     .post img {
         /* иначе легаси едет */
         max-width: 100%;
+    }
+
+    html[theme="dark"] .post img[src$=".png"] {
+        filter: invert(85%) hue-rotate(180deg);
     }
 
     .post big {
@@ -834,6 +838,8 @@
         .post-related-title span {
             position: relative;
             display: inline-block;
+            background-color: var(--card-title-color);
+            color: var(--card-title-bg-color);
             background-color: #f5f6f8;
             padding: 5px 20px;
             z-index: 10;
