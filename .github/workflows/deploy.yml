@@ -7,14 +7,35 @@ on:
 
 jobs:
   build:
-    name: Build image
+    name: Build & Push ARM64 Image
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
-      - run: docker login ghcr.io -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
-      - run: docker build --platform linux/arm64 -t ghcr.io/$GITHUB_ACTOR/blog:latest -t ghcr.io/$GITHUB_ACTOR/blog:$GITHUB_SHA .
-      - run: docker image push ghcr.io/$GITHUB_ACTOR/blog:$GITHUB_SHA
-      - run: docker image push ghcr.io/$GITHUB_ACTOR/blog:latest
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU emulation
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push ARM64 image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          platforms: linux/arm64
+          tags: |
+            ghcr.io/${{ github.actor }}/blog:latest
+            ghcr.io/${{ github.actor }}/blog:${{ github.sha }}
 
   deploy:
     name: Deploy
@@ -22,9 +43,11 @@ jobs:
     needs: build
     env:
       SSH_KEY_PATH: /tmp/ssh_key
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Make envfile
         run: export | grep "secret_" | sed "s/declare -x secret_//" > .env
         env:
@@ -34,12 +57,28 @@ jobs:
           secret_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           secret_PATREON_CLIENT_ID: ${{ secrets.PATREON_CLIENT_ID }}
           secret_PATREON_CLIENT_SECRET: ${{ secrets.PATREON_CLIENT_SECRET }}
-#          secret_CLUB_OPENID_CONFIG_SECRET: ${{ secrets.CLUB_OPENID_CONFIG_SECRET }}
           secret_EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
           secret_EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
           secret_EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-      - run: echo "GITHUB_SHA=$GITHUB_SHA" >> .env
-      - run: echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ${{ env.SSH_KEY_PATH }} && chmod 600 ${{ env.SSH_KEY_PATH }}
-      - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY_PATH }} -r $(pwd)/* ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/ubuntu/heynik.blog
-      - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY_PATH }} .env ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/ubuntu/heynik.blog/.env
-      - run: ssh -i ${{ env.SSH_KEY_PATH }} ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }} "cd /home/ubuntu/heynik.blog && docker login ghcr.io -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }} && docker pull ghcr.io/$GITHUB_ACTOR/blog:$GITHUB_SHA && docker compose -f docker-compose.production.yml --env-file=.env up -d && docker system prune --all --force"
+
+      - name: Add GITHUB_SHA to envfile
+        run: echo "GITHUB_SHA=$GITHUB_SHA" >> .env
+
+      - name: Write SSH key
+        run: |
+          echo "${{ secrets.PRODUCTION_SSH_KEY }}" > $SSH_KEY_PATH
+          chmod 600 $SSH_KEY_PATH
+
+      - name: Copy app and env to server
+        run: |
+          scp -o StrictHostKeyChecking=no -i $SSH_KEY_PATH -r $(pwd)/* ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/ubuntu/heynik.blog
+          scp -o StrictHostKeyChecking=no -i $SSH_KEY_PATH .env ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/ubuntu/heynik.blog/.env
+
+      - name: SSH & deploy via Docker Compose
+        run: |
+          ssh -i $SSH_KEY_PATH ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }} \
+            "cd /home/ubuntu/heynik.blog \
+             && docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} \
+             && docker pull ghcr.io/${{ github.actor }}/blog:${{ github.sha }} \
+             && docker compose -f docker-compose.production.yml --env-file=.env up -d \
+             && docker system prune --all --force"
