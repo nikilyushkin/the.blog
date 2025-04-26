@@ -40,21 +40,22 @@ jobs:
       SSH_KEY_PATH: /tmp/ssh_key
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Make envfile
-        run: export | grep "secret_" | sed "s/declare -x secret_//" > .env
+        run: |
+          export | grep "secret_" | sed "s/declare -x secret_//" > .env
         env:
-          secret_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          secret_TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          secret_TELEGRAM_MAIN_CHAT_ID: ${{ secrets.TELEGRAM_MAIN_CHAT_ID }}
-          secret_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          secret_PATREON_CLIENT_ID: ${{ secrets.PATREON_CLIENT_ID }}
-          secret_PATREON_CLIENT_SECRET: ${{ secrets.PATREON_CLIENT_SECRET }}
-          secret_EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-          secret_EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-          secret_EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          secret_SECRET_KEY:    ${{ secrets.SECRET_KEY }}
+          secret_TELEGRAM_TOKEN:           ${{ secrets.TELEGRAM_TOKEN }}
+          secret_TELEGRAM_MAIN_CHAT_ID:    ${{ secrets.TELEGRAM_MAIN_CHAT_ID }}
+          secret_SENTRY_DSN:               ${{ secrets.SENTRY_DSN }}
+          secret_PATREON_CLIENT_ID:        ${{ secrets.PATREON_CLIENT_ID }}
+          secret_PATREON_CLIENT_SECRET:    ${{ secrets.PATREON_CLIENT_SECRET }}
+          secret_EMAIL_HOST:               ${{ secrets.EMAIL_HOST }}
+          secret_EMAIL_HOST_USER:          ${{ secrets.EMAIL_HOST_USER }}
+          secret_EMAIL_HOST_PASSWORD:      ${{ secrets.EMAIL_HOST_PASSWORD }}
 
       - name: Add GITHUB_SHA to envfile
         run: echo "GITHUB_SHA=$GITHUB_SHA" >> .env
@@ -64,10 +65,13 @@ jobs:
           echo "${{ secrets.PRODUCTION_SSH_KEY }}" > $SSH_KEY_PATH
           chmod 600 $SSH_KEY_PATH
 
-      - name: Copy application & env to server
+      - name: Sync files with rsync
         run: |
-          scp -o StrictHostKeyChecking=no -i $SSH_KEY_PATH -r $(pwd)/* ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/ubuntu/heynik.blog
-          scp -o StrictHostKeyChecking=no -i $SSH_KEY_PATH .env ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/ubuntu/heynik.blog/.env
+          rsync -avz --delete \
+            -e "ssh -i $SSH_KEY_PATH -o StrictHostKeyChecking=no" \
+            --exclude='.git' \
+            $(pwd)/ \
+            ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/ubuntu/heynik.blog/
 
       - name: SSH & deploy via Docker Compose
         run: |
