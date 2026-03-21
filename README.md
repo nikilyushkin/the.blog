@@ -1,8 +1,6 @@
-# vas3k.blog
+# the.blog
 
-This repository contains the source code of my blog — https://vas3k.blog
-
-It is completely custom and is not intended to be used as a universal blog engine. I keep his code here purely because why not. Open Source FTW!
+It's a fork from vas3k blog codebase. Which was never written with intention of scalability or wider adoption.
 
 ⚠️ Use it at your own risk! I'm not responsible for any damages or your wasted time trying to get your blog up and running on this. Also, I don't provide any support for this code, sorry.
 
@@ -25,7 +23,6 @@ It is completely custom and is not intended to be used as a universal blog engin
 
 **CI/CD:**
 - Github Actions + SSH deployment using [docker-compose.production.yml](docker-compose.production.yml) as a service configuration
-
 
 ## 🏗️ How to build
 
@@ -51,7 +48,6 @@ Then open http://localhost:8000 and see an empty page.
 ## 🤔 Contributions, etc
 
 Well, like, who in their right mind contributes to other people's blogs? But feel free to use Github Issues if you want to repord bug or anything else :)
- 
 
 ## 🧸 Repository mascot
 

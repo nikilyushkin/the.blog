@@ -13,7 +13,7 @@
     font-size: 125%;
     line-height: 1.67;
     color: #464848;
-#    font-family: var(--serif-font);
+    font-family: var(--serif-font);
     font-weight: 300;
 }
 
@@ -65,7 +65,7 @@
     .post .header-1 a,
     .post .header-2 a,
     .post .header-3 a {
-        color: #464848;
+        opacity: 0.9;
     }
 
     .post hr {
@@ -176,6 +176,10 @@
     .post img {
         /* иначе легаси едет */
         max-width: 100%;
+    }
+
+    html[theme="dark"] .post img[src$=".png"] {
+        filter: invert(85%) hue-rotate(180deg);
     }
 
     .post big {
@@ -832,7 +836,8 @@
         .post-related-title span {
             position: relative;
             display: inline-block;
-            background-color: #f5f6f8;
+            background-color: var(--card-title-color);
+            color: var(--card-title-bg-color);
             padding: 5px 20px;
             z-index: 10;
         }
@@ -857,4 +862,4 @@
 
 .width-75 {
     width: 75%;
-}
+}gi
