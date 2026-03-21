@@ -6,13 +6,19 @@ jobs:
   dockerize:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
       - name: Build the docker-compose stack
-        run: docker-compose up -d
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '20s'
+        run: docker compose up -d
+      - name: Wait for services to be ready
+        run: |
+          for i in $(seq 1 30); do
+            if docker compose exec -T blog_app python3 -c "import django" 2>/dev/null; then
+              echo "App is ready"
+              break
+            fi
+            echo "Waiting... ($i/30)"
+            sleep 2
+          done
       - name: Check db migrate on container
         run: |
-          docker-compose exec -T blog_app make migrate
+          docker compose exec -T blog_app make migrate
