@@ -428,7 +428,7 @@ name = "django"
 version = "4.2.17"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.8"
 groups = ["main"]
 files = [
     {file = "Django-4.2.17-py3-none-any.whl", hash = "sha256:3a93350214ba25f178d4045c0786c61573e7dbfa3c509b3551374f1e11ba8de0"},
@@ -436,7 +436,7 @@ files = [
 ]
 
 [package.dependencies]
-asgiref = ">=3.8.1,<4"
+asgiref = ">=3.6.0,<4"
 sqlparse = ">=0.3.1"
 tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 
@@ -1770,4 +1770,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "93f8d10463f1453a1b084385559ca1ed7f022d7c35d2fde120b020c491b8543b"
+content-hash = "56b05dbe7685782f33cc842e0e2bb0d1ac6f39ee95ae5a6fbd13f3fcfd3513ba"
