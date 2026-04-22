@@ -63,9 +63,3 @@ def post_config_by_type(post_type):
         return POST_TYPES[post_type]
     else:
         return PostTypeConfig()
-
-
-INDEX_PAGE_BEST_POSTS = [
-    "organizational-design-key-to-company-success",
-    "sabotage-product-guide",
-]

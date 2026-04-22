@@ -30,15 +30,6 @@ def show_post(context, post):
 
     return mark_safe(html)
 
-    # # remove extra blocks for unauthorized users
-    # if settings.EXTRA_BLOCK_CLASS in text and not context["me"]:
-    #     soup = BeautifulSoup(text, "html.parser")
-    #     for block in soup.select("." + settings.EXTRA_BLOCK_CLASS):
-    #         block.string = ""
-    #         block["class"] = block.get("class", []) + ["block-extra-placeholder"]
-    #         block.append(BeautifulSoup(block_placeholder_template.render({"story": post}), "html.parser"))
-    #     text = str(soup)
-
 
 def clicker(context, block, text=None):
     clicker = context["clickers"].get(block) or {}
