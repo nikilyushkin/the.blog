@@ -8,7 +8,7 @@ It's a fork from vas3k blog codebase. Which was never written with intention of 
 ## ⚙️ Tech details
 
 **Backend:**
-- Python 3.11+
+- Python 3.10+
 - Django 4+
 - PostgreSQL
 - [Poetry](https://python-poetry.org/) as a package manager
@@ -31,8 +31,8 @@ If you like to build it from scratch:
 ```
 $ pip3 install poetry
 $ poetry install
-$ poetry run manage.py migrate
-$ poetry run manage.py runserver 8000
+$ poetry run python3 manage.py migrate
+$ poetry run python3 manage.py runserver 0.0.0.0:8000
 ```
 
 Don't forget to create an empty Postgres database called `vas3k_blog` or your migrations will fail.
@@ -40,10 +40,24 @@ Don't forget to create an empty Postgres database called `vas3k_blog` or your mi
 Another option for those who prefer Docker:
 
 ```
-$ docker-compose up
+$ docker compose up
 ```
 
 Then open http://localhost:8000 and see an empty page.
+
+## 🧪 Tests
+
+Smoke suite via pytest-django:
+
+```
+$ poetry run pytest
+```
+
+Or inside Docker:
+
+```
+$ docker compose exec -T blog_app poetry run pytest
+```
 
 ## 🤔 Contributions, etc
 
