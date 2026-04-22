@@ -53,3 +53,10 @@ db.sqlite3
 venv/
 
 .history
+
+# Claude Code / Harness / Agent-OS scaffolding (local, not checked in)
+.claude/
+.agents/
+agent-os/
+skills-lock.json
+.ropeproject/
