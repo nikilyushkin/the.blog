@@ -46,7 +46,7 @@ __pycache__
 private_settings.py
 local_settings.py
 
-vas3k_blog/.env
+heynik_blog/.env
 .env
 db.sqlite3
 *.session

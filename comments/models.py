@@ -10,7 +10,7 @@ from django.db.models import F
 from posts.models import Post
 from users.avatars import AVATARS
 from users.models import User
-from vas3k_blog.exceptions import BadRequest
+from heynik_blog.exceptions import BadRequest
 
 
 class Comment(models.Model):

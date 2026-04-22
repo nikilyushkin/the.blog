@@ -7,7 +7,7 @@ from django.db import connections
 from django.utils.html import strip_tags
 
 from posts.models import Post
-from vas3k_blog.posts import POST_TYPES
+from heynik_blog.posts import POST_TYPES
 
 log = logging.getLogger(__name__)
 
