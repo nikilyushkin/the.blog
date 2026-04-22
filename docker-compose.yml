@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  club_app:
+  blog_app:
     build:
       dockerfile: Dockerfile
       context: .
