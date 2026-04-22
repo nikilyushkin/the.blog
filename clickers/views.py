@@ -1,5 +1,5 @@
 from django.db.models import F
-from django.http import Http404, JsonResponse, HttpResponseNotAllowed, HttpResponse
+from django.http import Http404, HttpResponseNotAllowed, HttpResponse
 from django.shortcuts import get_object_or_404, render
 
 from clickers.models import Clicker

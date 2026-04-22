@@ -49,7 +49,6 @@ urlpatterns = [
         RedirectView.as_view(url="/%(post_type)s/%(post_slug)s#%(block)s", permanent=True),
         name="show_post_block"
     ),
-    # path(r"<str:type>/<str:slug>/thepub/", show_post, name="story_epub"),
     path(r"<str:post_type>/", list_posts, name="list_posts"),
 ]
 

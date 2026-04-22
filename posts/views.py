@@ -6,7 +6,7 @@ from comments.models import Comment
 from posts.forms import PostEditForm
 from posts.models import Post
 from posts.renderers import render_list, render_list_all, render_post
-from heynik_blog.posts import INDEX_PAGE_BEST_POSTS, POST_TYPES
+from heynik_blog.posts import POST_TYPES
 
 
 def index(request):
@@ -22,29 +22,9 @@ def index(request):
         .exclude(id=top_post.id if top_post else None)\
         .order_by("-published_at")[:6]
 
-    # books posts
-    #latest_books_posts = Post.visible_objects()\
-    #    .filter(type="books", is_visible_on_home_page=True)\
-    #    .exclude(id__in=[post.id for post in latest_posts] if latest_posts else [])\
-    #    .order_by("-published_at")[:3]
-    #top_books_posts = Post.visible_objects()\
-    #    .filter(type="books", is_visible_on_home_page=True)\
-    #    .exclude(id__in=[
-    #        top_post.id if top_post else None,
-    #        *[post.id for post in latest_posts],
-    #        *[post.id for post in latest_books_posts],
-    #    ])\
-    #    .order_by("-view_count")[:5]
-    #books_posts = list(latest_books_posts) + list(top_books_posts)
-
     books_posts = Post.visible_objects()\
         .filter(type="books", is_visible_on_home_page=True)\
         .order_by("-published_at")[:11]
-
-    # featured posts
-    best_posts = Post.visible_objects()\
-        .filter(slug__in=INDEX_PAGE_BEST_POSTS)\
-        .order_by("-published_at")[:10]
 
     # notes
     notes_posts = Post.visible_objects()\
@@ -79,11 +59,6 @@ def index(request):
                 "url": "/books/",
                 "posts": books_posts
             },
-#            {
-#                "title": "Top posts",
-#                "template": "index/posts2.html",
-#                "posts": best_posts
-#            },
             {
                 "title": "Projects",
                 "template": "index/projects.html",
