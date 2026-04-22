@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from clickers.models import Clicker
 from posts.models import Post
 from utils.request import parse_ip_address
-from vas3k_blog.posts import DEFAULT_LIST_ITEMS_PER_PAGE, PostTypeConfig, post_config_by_type
+from heynik_blog.posts import DEFAULT_LIST_ITEMS_PER_PAGE, PostTypeConfig, post_config_by_type
 
 
 def render_list(request, post_type, posts, context=None):

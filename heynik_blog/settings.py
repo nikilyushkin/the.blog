@@ -51,7 +51,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "vas3k_blog.urls"
+ROOT_URLCONF = "heynik_blog.urls"
 
 TEMPLATES = [
     {
@@ -66,14 +66,14 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "django.contrib.auth.context_processors.auth",
-                "vas3k_blog.context_processors.settings_processor",
-                "vas3k_blog.context_processors.cookies_processor",
+                "heynik_blog.context_processors.settings_processor",
+                "heynik_blog.context_processors.cookies_processor",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = "vas3k_blog.wsgi.application"
+WSGI_APPLICATION = "heynik_blog.wsgi.application"
 
 LOGGING = {
     "version": 1,
