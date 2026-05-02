@@ -13,6 +13,7 @@ def index(request):
     # select top post
     top_post = Post.visible_objects()\
         .filter(is_visible_on_home_page=True)\
+        .exclude(type="stream")\
         .order_by("-published_at")\
         .first()
 
