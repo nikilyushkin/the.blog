@@ -55,6 +55,13 @@ POST_TYPES: dict[str, PostTypeConfig] = {
         list_template="posts/lists/notes.html",
         show_template="posts/full/notes.html",
     ),
+    "stream": PostTypeConfig(
+        name="Stream",
+        list_items_per_page=50,
+        card_template="posts/cards/feed.html",
+        list_template="posts/lists/feed.html",
+        show_template="posts/full/feed.html",
+    ),
 }
 
 

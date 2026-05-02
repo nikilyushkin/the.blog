@@ -1,8 +1,11 @@
+from datetime import datetime
+
 import pytest
 
 from comments.models import Comment
 from common.markdown.markdown import markdown_text
 from heynik_blog.posts import POST_TYPES, post_config_by_type
+from posts.models import Post
 
 
 def test_markdown_pipeline_produces_html():
@@ -89,3 +92,47 @@ def test_create_comment_requires_min_length(authed_client, post):
     })
     assert response.status_code == 400
     assert Comment.objects.filter(post=post).count() == 0
+
+
+@pytest.fixture
+def stream_post(db):
+    return Post.objects.create(
+        type="stream",
+        slug="quick-thought",
+        author="nik",
+        title="A quick thought",
+        subtitle="Something short to share",
+        text="Just a short note. Nothing fancy here.",
+        created_at=datetime.utcnow(),
+        is_visible=True,
+        is_visible_on_home_page=True,
+    )
+
+
+def test_stream_list_returns_200(client, stream_post):
+    response = client.get("/stream/")
+    assert response.status_code == 200
+    assert b"A quick thought" in response.content
+    assert b"feed-list" in response.content
+
+
+def test_stream_show_post_renders_flat_layout(client, stream_post):
+    response = client.get(f"/stream/{stream_post.slug}/")
+    assert response.status_code == 200
+    assert b"feed-full-title" in response.content
+    assert b"A quick thought" in response.content
+
+
+def test_index_includes_stream_section(client, stream_post):
+    response = client.get("/")
+    assert response.status_code == 200
+    assert b"Stream" in response.content
+    assert b"A quick thought" in response.content
+
+
+def test_show_post_metadata_is_in_english(client, post):
+    response = client.get(f"/blog/{post.slug}/")
+    assert response.status_code == 200
+    body = response.content
+    assert b"\xd0\xba\xd0\xbe\xd0\xbc\xd0\xbc\xd0\xb5\xd0\xbd\xd1\x82" not in body  # no "коммент"
+    assert b"\xd0\xbf\xd1\x80\xd0\xbe\xd1\x81\xd0\xbc\xd0\xbe\xd1\x82\xd1\x80" not in body  # no "просмотр"
