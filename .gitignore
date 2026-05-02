@@ -60,3 +60,6 @@ venv/
 agent-os/
 skills-lock.json
 .ropeproject/
+
+# Local docs / scratch notes (not checked in)
+docs/
