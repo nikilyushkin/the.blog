@@ -63,3 +63,6 @@ skills-lock.json
 
 # Local docs / scratch notes (not checked in)
 docs/
+
+# Collected static files (built at deploy time)
+staticfiles/
