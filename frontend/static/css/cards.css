@@ -185,3 +185,209 @@
         background-size: contain;
         background-position: 50% 10px;
     }
+
+/* Stream feed — vas3k.club-style cards */
+
+.container-feed {
+    max-width: 900px;
+}
+
+.feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 30px auto;
+}
+
+.feed-post,
+.feed-post:visited {
+    position: relative;
+    display: block;
+    padding: 24px 30px;
+    background-color: var(--block-bg-color);
+    box-shadow: var(--block-shadow);
+    border: var(--block-border);
+    border-radius: var(--block-border-radius);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: box-shadow 0.2s ease-out;
+}
+
+    .feed-post:hover {
+        box-shadow: 0 0 40px rgba(94, 104, 125, 0.3);
+    }
+
+    .feed-post-with-image,
+    .feed-post-with-image:visited {
+        padding-left: 80px;
+    }
+
+    .feed-post-image {
+        position: absolute;
+        top: 50%;
+        left: -28px;
+        width: 72px;
+        height: 72px;
+        border: solid 3px var(--block-bg-color);
+        border-radius: 100%;
+        overflow: hidden;
+        background-color: var(--block-bg-color);
+        transform: translateY(-50%);
+    }
+
+        .feed-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 570px) {
+            .feed-post-with-image,
+            .feed-post-with-image:visited {
+                padding-left: 60px;
+            }
+
+            .feed-post-image {
+                width: 48px;
+                height: 48px;
+                left: -18px;
+                border-width: 2px;
+            }
+        }
+
+    .feed-post-meta {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+        align-items: center;
+        font-family: var(--sans-font);
+        font-size: 12px;
+        color: var(--text-color);
+        opacity: 0.55;
+        margin-bottom: 10px;
+    }
+
+    .feed-post-date {
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .feed-post-views i {
+        font-size: 11px;
+    }
+
+    .feed-post-title {
+        display: block;
+        font-family: var(--serif-font);
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 1.35em;
+        color: var(--text-color);
+    }
+
+    .feed-post-subtitle {
+        display: block;
+        font-family: var(--serif-font);
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.5em;
+        color: var(--text-color);
+        opacity: 0.65;
+        margin-top: 6px;
+    }
+
+    @media (max-width: 570px) {
+        .feed-post,
+        .feed-post:visited {
+            padding: 20px 22px;
+        }
+
+        .feed-post-title {
+            font-size: 19px;
+        }
+
+        .feed-post-subtitle {
+            font-size: 15px;
+        }
+    }
+
+/* Stream show-page — flat, no card */
+
+.feed-full-headline {
+    margin: 60px auto 30px;
+    text-align: left;
+    max-width: 740px;
+}
+
+    .feed-full-date {
+        display: block;
+        font-family: var(--sans-font);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        opacity: 0.55;
+        margin-bottom: 16px;
+    }
+
+    .feed-full-title {
+        font-family: var(--serif-font);
+        font-size: 220%;
+        font-weight: 500;
+        line-height: 1.25em;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+    }
+
+    .feed-full-subtitle {
+        font-family: var(--serif-font);
+        font-size: 130%;
+        font-weight: 300;
+        line-height: 1.45em;
+        opacity: 0.75;
+        margin: 14px 0 0;
+        padding: 0;
+        text-align: left;
+    }
+
+.feed-full-image {
+    max-width: 740px;
+    margin: 30px auto 0;
+}
+
+    .feed-full-image img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: var(--block-border-radius);
+    }
+
+.feed-full-text {
+    max-width: 740px;
+    margin: 30px auto 80px;
+}
+
+    .feed-full-text > p,
+    .feed-full-text > h1,
+    .feed-full-text > h2,
+    .feed-full-text > h3 {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .feed-full-text .header-1,
+    .feed-full-text .header-2,
+    .feed-full-text .header-3 {
+        text-align: left;
+        padding: 30px 0 10px;
+    }
+
+    @media (max-width: 570px) {
+        .feed-full-title {
+            font-size: 170%;
+        }
+
+        .feed-full-subtitle {
+            font-size: 115%;
+        }
+    }

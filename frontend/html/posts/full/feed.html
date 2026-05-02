@@ -1,0 +1,33 @@
+{% extends "posts/full/layout.html" %}
+{% load posts %}
+
+{% block headline %}
+    <div class="container container-feed">
+        <div class="feed-full-headline">
+            <time class="feed-full-date dt-published" datetime="{{ post.published_at|date:'Y-m-d' }}">{{ post.published_at|date:"d M Y" }}</time>
+            <h1 class="feed-full-title the-title p-name">
+                {% if request.user.is_superuser %}<a href="{% url "edit_post" post.type post.slug %}">✏️</a>{% endif %}
+                {{ post.title|safe }}
+            </h1>
+            {% if post.subtitle %}
+                <p class="feed-full-subtitle the-subtitle p-summary">{{ post.subtitle|safe }}</p>
+            {% endif %}
+            {% if post.main_image %}
+                <div class="feed-full-image">
+                    <img src="{{ post.main_image }}" alt="{{ post.title }}" loading="lazy">
+                </div>
+            {% endif %}
+            <a rel="author" class="p-author h-card" href="{{ request.scheme }}://{{ request.get_host }}" style="display: none;">{{ settings.AUTHOR }}</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block post %}
+    <div class="container container-feed h-entry">
+        <div class="feed-full-text e-content">
+            {% show_post post %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block post_related %}{% endblock %}

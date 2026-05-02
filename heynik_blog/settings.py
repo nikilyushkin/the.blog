@@ -187,7 +187,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 AUTHOR = "@nikilyushkin"
 TITLE = "Nik ILyushkin"
-DESCRIPTION = "Author blog | Delve into the entrepreneurial journey with insights on common mistakes, the relentless pursuit of success, and principles that work."
+DESCRIPTION = "Platform engineering, multi-cloud strategy and FinOps — written from inside a regulated enterprise by Nik Ilyushkin, Head of Cloud at IAG."
 STYLES_HASH = os.getenv("GITHUB_SHA") or str(randint(1, 10000))
 
 MAX_COMMENTS_PER_24H = 50

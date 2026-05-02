@@ -720,13 +720,16 @@
 .post-subscribe {
     display: block;
     width: 100%;
+    max-width: 900px;
     padding: 40px;
     font-size: 120%;
     box-sizing: border-box;
     text-align: center;
-    margin-top: 100px;
+    margin: 100px auto 0;
     background-color: var(--block-bg-color);
     color: var(--text-color);
+    border-radius: var(--block-border-radius);
+    box-shadow: var(--block-shadow);
 }
 
     .post-subscribe-header {

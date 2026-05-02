@@ -51,26 +51,19 @@
             <footer class="footer">
                 {% block footer_contacts %}
                     <div class="contacts">
-                        <div>Let's be in touch &rarr;</div>
-                        <a href="mailto:me@nikilyushk.in" class="contacts-item" target="_blank" rel="me">
-                            <i class="fas fa-envelope"></i>
-                            <span>me@nikilyushk.in</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/nikilyushkin" class="contacts-item" target="_blank" rel="me">
-                            <i class="fab fa-linkedin-in"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://twitter.com/nikilyushkin" class="contacts-item" target="_blank" rel="me">
-                            <i class="fab fa-twitter-square"></i>
-                            <span>X</span>
-                        </a>
+                        <p>
+                            If any of this resonates, find me on
+                            <a href="https://www.linkedin.com/in/nikilyushkin" target="_blank" rel="me"><i class="fab fa-linkedin-in"></i>&nbsp;<span>LinkedIn</span></a>,
+                            drop a line at
+                            <a href="mailto:me@nikilyushk.in" rel="me"><i class="fas fa-envelope"></i>&nbsp;<span>me@nikilyushk.in</span></a>,
+                            or <a href="{% url "donate" %}"><span>support the blog</span></a>.
+                        </p>
                     </div>
                 {% endblock %}
 
                 <div class="footer-disclaimer">
-                    You can use quotes from articles, pictures and screenshots in your blogs and presentations, as long as you link to the original post.
-                    DM me the links on twitter, I'll be humbled to see how my hobby resonates with people.
-                    Commercial use without my permission is prohibited.
+                    You can use quotes from articles, pictures and screenshots in your blogs and presentations, as long as you link to the original post. 
+                    DM me the links – happy to see what resonates. Commercial use without my permission is prohibited.
                 </div>
             </footer>
         {% endblock %}

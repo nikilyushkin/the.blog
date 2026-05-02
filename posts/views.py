@@ -31,6 +31,11 @@ def index(request):
         .filter(type="thoughts", is_visible_on_home_page=True)\
         .order_by("-published_at")[:11]
 
+    # stream — short-form feed
+    stream_posts = Post.visible_objects()\
+        .filter(type="stream", is_visible_on_home_page=True)\
+        .order_by("-published_at")[:7]
+
     return render(request, "index.html", {
         "blocks": [
             {
@@ -46,6 +51,12 @@ def index(request):
                 "title": "About me",
                 "template": "index/about.html",
                 "posts": []
+            },
+            {
+                "title": "Stream",
+                "url": "/stream/",
+                "template": "index/stream.html",
+                "posts": stream_posts,
             },
             {
                 "title": "Thoughts",
