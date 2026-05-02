@@ -24,4 +24,6 @@ RUN poetry install --no-interaction --no-ansi --no-root
 
 COPY . /app
 
+RUN poetry run python3 manage.py collectstatic --noinput
+
 CMD ["make", "docker-run-production"]
