@@ -30,4 +30,17 @@
     </div>
 {% endblock %}
 
-{% block post_related %}{% endblock %}
+{% block post_related %}
+    {% if related %}
+        <div class="container container-feed">
+            <section class="post-related">
+                <div class="post-related-title"><span><b>More?</b></span></div>
+                <div class="feed-list">
+                    {% for post in related %}
+                        {% include "posts/cards/feed.html" %}
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    {% endif %}
+{% endblock %}
