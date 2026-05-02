@@ -13,6 +13,13 @@
                     {% include "posts/cards/vertical.html" %}
                 {% endfor %}
             </div>
+        {% elif post_card_type == "posts/cards/feed.html" %}
+            <div class="feed-list">
+                {% for post in posts %}
+                    {% include "posts/cards/feed.html" %}
+                {% endfor %}
+            </div>
+        {# add new card-template branches above; else falls back to horizontal cards #}
         {% else %}
             <div class="cards-group cards-group-1x">
                 {% for post in posts %}
@@ -23,9 +30,7 @@
         <div class="clearfix50"></div>
     {% endfor %}
 
-    <div class="container">
-        {% paginator posts %}
-    </div>
+    {% paginator posts %}
 </div>
 {% endblock %}
 

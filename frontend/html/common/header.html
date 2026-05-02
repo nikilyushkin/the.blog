@@ -15,27 +15,27 @@
     <div class="header-menu hide-on-iphone" id="header-menu" hx-boost="true">
 
         <a href="{% url "list_posts" "thoughts" %}" class="button button-inverted header-menu-item">
-            <span>🧠</span>
+            <span><i class="fas fa-brain"></i></span>
             <span>Think</span>
         </a>
 
         <a href="{% url "list_posts" "books" %}" class="button button-inverted header-menu-item">
-            <span>📚</span>
+            <span><i class="fas fa-book-open"></i></span>
             <span>Read</span>
         </a>
 
         <a href="{% url "list_posts" "stream" %}" class="button button-inverted header-menu-item">
-            <span>⚡</span>
+            <span><i class="fas fa-bolt"></i></span>
             <span>Stream</span>
         </a>
 
         <a href="{% url "subscribe" %}" class="button button-inverted header-menu-item">
-            <span>✅</span>
+            <span><i class="fas fa-envelope"></i></span>
             <span>Subscribe</span>
         </a>
 
         <a href="{% url "list_posts" "all" %}" class="button button-inverted header-menu-item">
-            <span>🗞️️</span>
+            <span><i class="fas fa-newspaper"></i></span>
             <span>All Posts</span>
         </a>
 
@@ -44,13 +44,8 @@
             <span>Donate</span>
         </a-->
 
-        <label class="theme-switcher button button-inverted button-round header-menu-item header-menu-round" onclick="return toggleTheme(event);" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <span class="slider round"></span>
-        </label>
-
         <div class="button button-inverted button-round header-menu-item header-menu-round" onclick="return toggleHeaderSearch(event, '#header-search');">
-            🔍
+            <i class="fas fa-search"></i>
         </div>
 
         <!--a href="{% url "profile" %}" class="button button-inverted avatar header-menu-item header-menu-round" {% if request.user.is_authenticated %}style="background-image: url('{{ request.user.avatar }}');" {% endif %}>
@@ -65,7 +60,7 @@
             <input type="hidden" name="domains" value="heynik.blog">
             <input type="hidden" name="sitesearch" value="heynik.blog">
             <input type="text" name="q" placeholder="Search the site..." class="header-search-form-input">
-            <button type="submit" class="header-search-form-submit">🔍</button>
+            <button type="submit" class="header-search-form-submit"><i class="fas fa-search"></i></button>
         </form>
     </div>
 </div>

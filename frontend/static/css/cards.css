@@ -195,8 +195,8 @@
 .feed-list {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    margin: 30px auto;
+    gap: 30px;
+    margin: 40px auto;
 }
 
 .feed-post,
@@ -206,15 +206,17 @@
     padding: 24px 30px;
     background-color: var(--block-bg-color);
     box-shadow: var(--block-shadow);
-    border: var(--block-border);
     border-radius: var(--block-border-radius);
     color: var(--text-color);
     text-decoration: none;
-    transition: box-shadow 0.2s ease-out;
+    transition: 0.2s ease-out;
+    -webkit-tap-highlight-color: transparent;
 }
 
-    .feed-post:hover {
+    .feed-post:hover,
+    .feed-post:focus {
         box-shadow: 0 0 40px rgba(94, 104, 125, 0.3);
+        outline: none;
     }
 
     .feed-post-with-image,

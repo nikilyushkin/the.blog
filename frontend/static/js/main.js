@@ -52,10 +52,39 @@ function initializeSpoilers() {
     }));
 }
 
-function toggleTheme(event) {
-    let theme = event.target.checked ? "dark" : "light";
-    document.documentElement.setAttribute("theme", theme);
-    localStorage.setItem("theme", theme);
+function initThemeSwitcher() {
+    const root = document.querySelector("[data-theme-switcher]");
+    if (!root || root.dataset.initialised === "true") return;
+    root.dataset.initialised = "true";
+
+    const inputs = root.querySelectorAll('input[type="radio"]');
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
+
+    const realTheme = (value) =>
+        value === "auto" ? (mediaQuery.matches ? "light" : "dark") : value;
+
+    const apply = (value) => {
+        root.setAttribute("data-value", value);
+        root.setAttribute("data-real", realTheme(value));
+        document.documentElement.setAttribute("theme", realTheme(value));
+    };
+
+    inputs.forEach((input) => {
+        input.addEventListener("change", () => {
+            apply(input.value);
+            localStorage.setItem("theme", input.value);
+        });
+    });
+
+    const stored = localStorage.getItem("theme");
+    const initial = ["light", "auto", "dark"].includes(stored) ? stored : "auto";
+    const checked = root.querySelector(`input[value="${initial}"]`);
+    if (checked) checked.checked = true;
+    apply(initial);
+
+    mediaQuery.addEventListener("change", () => {
+        if (root.getAttribute("data-value") === "auto") apply("auto");
+    });
 }
 
 function toggleHeaderSearch(event, targetId) {
@@ -68,6 +97,7 @@ function toggleHeaderSearch(event, targetId) {
 
 window.addEventListener("DOMContentLoaded", function() {
     console.log("Initializing js...")
+    initThemeSwitcher();
     initializeImageZoom();
     initializePoorManEmoji();
     initializeSpoilers();

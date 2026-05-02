@@ -6,21 +6,21 @@ from comments.models import Comment
 
 class CommentForm(ModelForm):
     post_slug = forms.CharField(
-        label="ID поста",
+        label="Post ID",
         required=True,
         max_length=54,
         widget=forms.HiddenInput
     )
 
     block = forms.CharField(
-        label="ID блока",
+        label="Block ID",
         max_length=54,
         widget=forms.HiddenInput,
         required=False,
     )
 
     text = forms.CharField(
-        label="Текст",
+        label="Text",
         min_length=3,
         max_length=10000,
         required=True,

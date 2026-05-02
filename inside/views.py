@@ -16,7 +16,7 @@ def subscribe(request):
     antispam = request.POST.get("name")
     if antispam:
         return render(request, "error.html", {
-            "title": "Spam Proetect 🛡️",
+            "title": "Spam protection",
             "message": "Anti-spam check failed. "
                        "Refresh the page and try again"
         })
