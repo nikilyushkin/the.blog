@@ -1,6 +1,6 @@
 {% load text_filters %}
 {% load posts %}
-<a href="{{ post.get_absolute_url }}" class="card card-post card-vertical h-entry" style="background-image: url('{{ post.main_image }}');">
+<a href="{{ post.get_absolute_url }}" class="card card-post card-vertical h-entry"{% if post.main_image %} style="background-image: url('{{ post.main_image }}');"{% endif %}>
     {% if post.is_members_only %}
         <span class="card-icon-lock">
             {% if me %}<i class="fas fa-lock-open"></i>{% else %}<i class="fas fa-lock"></i>{% endif %}

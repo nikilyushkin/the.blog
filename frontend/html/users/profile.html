@@ -22,7 +22,7 @@
             <a href="{% url "logout" %}" class="button button-red">Logout</a>
         </div>
 
-        <div class="block-title">👤 Profile Settings</div>
+        <div class="block-title">Profile Settings</div>
 
         <form action="{% url "profile" %}" method="post" class="profile-edit-form">
             {% csrf_token %}

@@ -28,16 +28,14 @@
         {% include "common/scripts.html" %}
         {% block css %}{% endblock %}
         <script>
-            const theme = localStorage.getItem('theme') ||
-                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('theme', theme);
-
-            htmx.onLoad(function() {
-                const themeSwitch = document.querySelector('.theme-switcher input[type="checkbox"]');
-                if (themeSwitch) {
-                    themeSwitch.checked = (theme === 'dark');
-                }
-            });
+            (function () {
+                const stored = localStorage.getItem('theme');
+                const value = ['light', 'auto', 'dark'].includes(stored) ? stored : 'auto';
+                const real = value === 'auto'
+                    ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+                    : value;
+                document.documentElement.setAttribute('theme', real);
+            })();
         </script>
     </head>
     <body class="{% block body_class %}{% endblock %}" style="{% block body_styles %}{% endblock %}">
@@ -49,20 +47,30 @@
 
         {% block footer %}
             <footer class="footer">
-                {% block footer_contacts %}
-                    <div class="contacts">
-                        <p>
-                            If any of this resonates, find me on
-                            <a href="https://www.linkedin.com/in/nikilyushkin" target="_blank" rel="me"><i class="fab fa-linkedin-in"></i>&nbsp;<span>LinkedIn</span></a>,
-                            drop a line at
-                            <a href="mailto:me@nikilyushk.in" rel="me"><i class="fas fa-envelope"></i>&nbsp;<span>me@nikilyushk.in</span></a>,
-                            or <a href="{% url "donate" %}"><span>support the blog</span></a>.
-                        </p>
+                <div class="footer-row">
+                    {% block footer_contacts %}
+                        <div class="footer-left">
+                            <p>
+                                If any of this resonates, find me on
+                                <a href="https://www.linkedin.com/in/nikilyushkin" target="_blank" rel="me"><i class="fab fa-linkedin-in"></i>&nbsp;<span>LinkedIn</span></a>,
+                                drop a line at
+                                <a href="mailto:me@nikilyushk.in" rel="me"><i class="fas fa-envelope"></i>&nbsp;<span>me@nikilyushk.in</span></a>,
+                                or <a href="{% url "donate" %}"><span>support the blog</span></a>.
+                            </p>
+                        </div>
+                    {% endblock %}
+
+                    <div class="footer-right">
+                        <div class="theme-switcher" data-theme-switcher data-value="auto" data-real="light">
+                            <label class="theme-switcher-light" aria-label="Light theme"><input type="radio" name="theme" value="light"></label>
+                            <label class="theme-switcher-auto" aria-label="System theme"><input type="radio" name="theme" value="auto"></label>
+                            <label class="theme-switcher-dark" aria-label="Dark theme"><input type="radio" name="theme" value="dark"></label>
+                        </div>
                     </div>
-                {% endblock %}
+                </div>
 
                 <div class="footer-disclaimer">
-                    You can use quotes from articles, pictures and screenshots in your blogs and presentations, as long as you link to the original post. 
+                    You can use quotes from articles, pictures and screenshots in your blogs and presentations, as long as you link to the original post.
                     DM me the links – happy to see what resonates. Commercial use without my permission is prohibited.
                 </div>
             </footer>

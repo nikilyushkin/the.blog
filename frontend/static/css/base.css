@@ -374,22 +374,3 @@ i.fa, i.fab {
     top: 2px;
 }
 
-.theme-switcher {
-    display: inline-block;
-    height: 34px;
-    position: relative;
-    width: 60px;
-}
-
-    .theme-switcher input {
-        display: none;
-    }
-
-    .theme-switcher .slider:after {
-        content: "☀️";
-        display: block;
-    }
-
-        .theme-switcher input:checked + .slider:after {
-            content: "🌙";
-        }
