@@ -6,25 +6,22 @@
 
 {% block body %}
     <p>
-        Heya! 👋🏼
+        Someone — possibly you — entered this email address to subscribe to new posts from heynik.blog.
     </p>
 
     <p>
-        Someone, possibly even you, wants to receive new posts from the my blog at this address.
-        Click here to confirm this 👇
+        Confirm below to start receiving them.
     </p>
 
     <p style="text-align: center;">
         <a href="https://heynik.blog/subscribe/confirm/{{ secret_hash }}/" class="button button-big">
-            👍 Yes, I want to subscribe
+            Confirm subscription
         </a>
     </p>
 
     <br><br>
 
     <p>
-        If you do not know what this is about, it means someone mistakenly entered your email address.
-        Simply ignore this email or click <a href="https://heynik.blog/unsubscribe/{{ secret_hash }}/">here</a>, to completely erase your email from the database.
-        Without your consent via the button above, I will not send anything.
+        If this wasn't you, ignore this email or remove your address from the database <a href="https://heynik.blog/unsubscribe/{{ secret_hash }}/">here</a>. Nothing will be sent without confirmation.
     </p>
 {% endblock %}

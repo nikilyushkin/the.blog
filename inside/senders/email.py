@@ -41,4 +41,4 @@ def send_vas3k_email(subscriber: Subscriber, subject: str, html: str, force: boo
     )
     email.attach_alternative(prepared_html, "text/html")
     email.content_subtype = "html"
-    return email.send(fail_silently=True)
+    return email.send(fail_silently=False)
