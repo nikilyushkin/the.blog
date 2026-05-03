@@ -10,74 +10,61 @@ from heynik_blog.posts import POST_TYPES
 
 
 def index(request):
-    # select top post
-    top_post = Post.visible_objects()\
-        .filter(is_visible_on_home_page=True)\
-        .exclude(type="stream")\
-        .order_by("-published_at")\
-        .first()
+    base = Post.visible_objects().filter(is_visible_on_home_page=True)
 
-    # latest posts
-    latest_posts = Post.visible_objects()\
-        .filter(type__in=["blog", "thoughts"], is_visible_on_home_page=True)\
-        .exclude(id=top_post.id if top_post else None)\
-        .order_by("-published_at")[:6]
+    # HERO + RECENT share one source: latest 4 from {thoughts, blog}.
+    # First → HERO, next 3 → RECENT 3-up. Their ids are excluded from THOUGHTS.
+    hero_recent = list(
+        base.filter(type__in=["thoughts", "blog"])
+            .order_by("-published_at")[:4]
+    )
+    top_post = hero_recent[0] if hero_recent else None
+    recent_posts = hero_recent[1:4]
+    used_ids = [p.id for p in hero_recent]
 
-    books_posts = Post.visible_objects()\
-        .filter(type="books", is_visible_on_home_page=True)\
-        .order_by("-published_at")[:11]
+    longreads = list(
+        base.filter(type="blog").order_by("-published_at")[:4]
+    )
+    stream_posts = list(
+        base.filter(type="stream").order_by("-published_at")[:5]
+    )
+    thoughts_posts = list(
+        base.filter(type="thoughts")
+            .exclude(id__in=used_ids)
+            .order_by("-published_at")[:4]
+    )
+    books_posts = list(
+        base.filter(type="books").order_by("-published_at")[:10]
+    )
 
-    # notes
-    notes_posts = Post.visible_objects()\
-        .filter(type="thoughts", is_visible_on_home_page=True)\
-        .order_by("-published_at")[:11]
+    blocks = []
+    if top_post:
+        blocks.append({"template": "index/main.html", "post": top_post})
+    if recent_posts:
+        blocks.append({"template": "index/posts3.html", "posts": recent_posts})
+    blocks.append({"title": "About me", "template": "index/about.html", "posts": []})
+    if longreads:
+        blocks.append({
+            "title": "Long Reads", "url": "/blog/",
+            "template": "index/posts4.html", "posts": longreads,
+        })
+    if stream_posts:
+        blocks.append({
+            "title": "Stream", "url": "/stream/",
+            "template": "index/stream.html", "posts": stream_posts,
+        })
+    if thoughts_posts:
+        blocks.append({
+            "title": "Thoughts", "url": "/thoughts/",
+            "template": "index/posts4.html", "posts": thoughts_posts,
+        })
+    if books_posts:
+        blocks.append({
+            "title": "Books", "url": "/books/",
+            "template": "index/posts3.html", "posts": books_posts,
+        })
 
-    # stream — short-form feed
-    stream_posts = Post.visible_objects()\
-        .filter(type="stream", is_visible_on_home_page=True)\
-        .order_by("-published_at")[:7]
-
-    return render(request, "index.html", {
-        "blocks": [
-            {
-                "template": "index/main.html",
-                "post": top_post
-            },
-            {
-                "title": "",
-                "template": "index/posts3.html",
-                "posts": latest_posts
-            },
-            {
-                "title": "About me",
-                "template": "index/about.html",
-                "posts": []
-            },
-            {
-                "title": "Stream",
-                "url": "/stream/",
-                "template": "index/stream.html",
-                "posts": stream_posts,
-            },
-            {
-                "title": "Thoughts",
-                "url": "/thoughts/",
-                "template": "index/posts4.html",
-                "posts": notes_posts
-            },
-            {
-                "title": "Books",
-                "template": "index/posts3.html",
-                "url": "/books/",
-                "posts": books_posts
-            },
-            {
-                "title": "Projects",
-                "template": "index/projects.html",
-                "posts": []
-            }
-        ]
-    })
+    return render(request, "index.html", {"blocks": blocks})
 
 
 def list_posts(request, post_type="all"):
