@@ -3,7 +3,7 @@
 {% with cover_url=post.data.amazon_url|amazon_cover %}
 <a href="{{ post.get_absolute_url }}" class="book-card h-entry">
     <div class="book-card-meta">
-        {{ post_type_config.name|default:"Books" }} · {{ post.published_at|date:"d M Y" }}
+        {{ post_type_config.name|default:"Books" }} · {{ post.published_at|date:"d M" }}
     </div>
 
     <div class="book-card-body">
