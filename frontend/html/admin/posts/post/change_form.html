@@ -24,6 +24,22 @@
                 {% endif %}
             </div>
         </fieldset>
+
+        {% if original.type == "books" %}
+            <fieldset class="module aligned">
+                <h2>Book metadata</h2>
+                <div class="form-row" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <a href="{% url 'admin:posts_post_fetch_book_metadata' original.id %}"
+                       class="button"
+                       onclick="return confirm('Fetch author/year/pages from Open Library using the saved Amazon URL? Only fills empty fields.');">
+                        Fetch from Open Library
+                    </a>
+                    <span style="color: #888;">
+                        Save first if you just edited the Amazon URL.
+                    </span>
+                </div>
+            </fieldset>
+        {% endif %}
     {% endif %}
     {{ block.super }}
 {% endblock %}
