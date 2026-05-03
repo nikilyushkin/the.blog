@@ -26,6 +26,12 @@ class Command(BaseCommand):
             return
 
         if options.get("production"):
+            if post.newsletter_sent_at:
+                self.stdout.write(
+                    f"Newsletter for '{post.title}' already sent at {post.newsletter_sent_at}. "
+                    f"Clear newsletter_sent_at in admin to resend. Exiting..."
+                )
+                return
             subscribers = list(Subscriber.objects.filter(is_confirmed=True))
             subject_prefix = ""
         else:

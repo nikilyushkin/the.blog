@@ -17,7 +17,6 @@ class PostAdmin(admin.ModelAdmin):
         "is_visible", "newsletter_status",
     )
     ordering = ("-created_at",)
-    readonly_fields = ("newsletter_sent_at",)
     change_form_template = "admin/posts/post/change_form.html"
 
     def newsletter_status(self, obj):
@@ -53,6 +52,15 @@ class PostAdmin(admin.ModelAdmin):
         post = self.get_object(request, object_id)
         if not post:
             messages.error(request, "Post not found.")
+            return self._back(object_id)
+
+        if post.newsletter_sent_at:
+            messages.error(
+                request,
+                f"Newsletter for this post was already sent on "
+                f"{post.newsletter_sent_at.strftime('%Y-%m-%d %H:%M')} UTC. "
+                f"Clear the timestamp in the form below if you really need to resend.",
+            )
             return self._back(object_id)
 
         subscribers = Subscriber.objects.filter(is_confirmed=True)

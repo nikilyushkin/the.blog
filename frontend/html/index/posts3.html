@@ -1,4 +1,4 @@
-<section class="container container-width-max">
+<section class="container {% if block.posts.0.type == 'books' %}container-feed{% else %}container-width-max{% endif %}">
     {% if block.title %}
         <div class="header-1">
             {% if block.url %}
@@ -9,10 +9,17 @@
         </div>
     {% endif %}
 
-    <div class="cards-group cards-group-3x">
-        {% for post in block.posts %}
-            {% include "posts/cards/horizontal.html" %}
-        {% endfor %}
-    </div>
+    {% if block.posts.0.type == 'books' %}
+        <div class="book-list">
+            {% for post in block.posts %}
+                {% include "posts/cards/book.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="cards-group cards-group-3x">
+            {% for post in block.posts %}
+                {% include "posts/cards/horizontal.html" %}
+            {% endfor %}
+        </div>
+    {% endif %}
 </section>
-

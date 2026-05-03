@@ -38,10 +38,10 @@
     </div>
 </section>
 
-<section class="container container-width-max">
-    <div class="cards-group cards-group-3x">
+<section class="container container-feed">
+    <div class="book-list">
         {% for post in posts %}
-            {% include "posts/cards/horizontal.html" %}
+            {% include "posts/cards/book.html" %}
         {% endfor %}
     </div>
 

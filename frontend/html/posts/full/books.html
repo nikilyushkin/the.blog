@@ -1,0 +1,73 @@
+{% extends "posts/full/layout.html" %}
+{% load posts %}
+{% load books %}
+
+{% block headline %}
+    {% with amazon_url=post.data.amazon_url %}
+        {% with cover_url=amazon_url|amazon_cover %}
+            <div class="container container-width-max">
+                <div class="simple-headline">
+                    <div class="simple-headline-date dt-published">{{ post.published_at|date:"d M Y" }}</div>
+                </div>
+
+                <div class="book-headline">
+                    <div class="book-headline-cover">
+                        {% if cover_url %}
+                            <img src="{{ cover_url }}" alt="{{ post.title }}">
+                        {% elif post.image %}
+                            <img src="{{ post.image }}" alt="{{ post.title }}">
+                        {% endif %}
+                    </div>
+
+                    <div class="book-headline-meta">
+                        <h1 class="book-headline-title the-title p-name">
+                            {% if request.user.is_superuser %}<a href="{% url "edit_post" post.type post.slug %}">✏️</a>{% endif %}
+                            {{ post.title|safe }}
+                        </h1>
+
+                        {% if post.subtitle %}
+                            <p class="book-headline-subtitle the-subtitle p-summary">{{ post.subtitle|safe }}</p>
+                        {% endif %}
+
+                        <dl class="book-headline-facts">
+                            {% if post.data.author %}
+                                <dt>Author</dt><dd>{{ post.data.author }}</dd>
+                            {% endif %}
+                            {% if post.data.year %}
+                                <dt>Year</dt><dd>{{ post.data.year }}</dd>
+                            {% endif %}
+                            {% if post.data.pages %}
+                                <dt>Pages</dt><dd>{{ post.data.pages }}</dd>
+                            {% endif %}
+                            {% if post.data.domain %}
+                                <dt>Domain</dt><dd>{{ post.data.domain }}</dd>
+                            {% endif %}
+                        </dl>
+
+                        {% if post.data.rating %}
+                            <div class="book-headline-rating">
+                                <span class="book-headline-rating-score">{{ post.data.rating }}</span><span class="book-headline-rating-scale">/10</span>
+                            </div>
+                        {% endif %}
+
+                        {% if amazon_url or post.data.bookshop_url %}
+                            <div class="book-headline-links">
+                                {% if amazon_url %}
+                                    <a href="{{ amazon_url|amazon_buy }}" class="button" target="_blank" rel="noopener">Get on Amazon</a>
+                                {% endif %}
+                                {% if post.data.bookshop_url %}
+                                    <a href="{{ post.data.bookshop_url }}" class="button" target="_blank" rel="noopener">Bookshop</a>
+                                {% endif %}
+                                {% if post.data.goodreads_url %}
+                                    <a href="{{ post.data.goodreads_url }}" class="button" target="_blank" rel="noopener">Goodreads</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        <a rel="author" class="p-author h-card" href="{{ request.scheme }}://{{ request.get_host }}" style="display: none;">{{ settings.AUTHOR }}</a>
+                    </div>
+                </div>
+            </div>
+        {% endwith %}
+    {% endwith %}
+{% endblock %}

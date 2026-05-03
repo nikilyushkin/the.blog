@@ -17,6 +17,10 @@
 {% endif %}
 </style>
 
+<div class="simple-headline">
+    <div class="simple-headline-date dt-published">{{ post.published_at|date:"d M Y" }}</div>
+</div>
+
 <div class="headline">
     {% if post.image %}
         <div class="headline-image" style="background-image: url('{{ post.main_image }}');">
@@ -36,8 +40,6 @@
                 <div class="clearfix20"></div>
                 <div class="headline-info-subtitle the-subtitle p-summary">{{ post.subtitle | safe }}</div>
             {% endif %}
-            <div class="clearfix10"></div>
-            <div class="headline-info-date hide-on-iphone dt-published">{{ post.published_at|date:"d M Y" }}{% if post.comment_count %} — {{ post.comment_count }}&nbsp;comment{{ post.comment_count|pluralize }}{% endif %}{% if post.view_count %} — {{ post.view_count }}&nbsp;view{{ post.view_count|pluralize }}{% endif %}{% if post.word_count %} — {{ post.word_count }}&nbsp;word{{ post.word_count|pluralize }}{% endif %}</div>
             <a rel="author" class="p-author h-card" href="{{ request.scheme }}://{{ request.get_host }}" style="display: none;">{{ settings.AUTHOR }}</a>
         </div>
     </div>

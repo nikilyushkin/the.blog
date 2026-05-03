@@ -196,6 +196,8 @@ STYLES_HASH = os.getenv("GITHUB_SHA") or str(randint(1, 10000))
 
 MAX_COMMENTS_PER_24H = 50
 
+AMAZON_AFFILIATE_TAG = os.getenv("AMAZON_AFFILIATE_TAG", "")
+
 if SENTRY_DSN and not DEBUG:
     # activate sentry on production
     sentry_sdk.init(dsn=SENTRY_DSN, integrations=[

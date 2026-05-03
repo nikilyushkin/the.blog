@@ -1,0 +1,31 @@
+{% load posts %}
+{% load books %}
+{% with cover_url=post.data.amazon_url|amazon_cover %}
+<a href="{{ post.get_absolute_url }}" class="book-card h-entry">
+    <div class="book-card-meta">
+        {{ post_type_config.name|default:"Books" }} · {{ post.published_at|date:"d M Y" }}
+    </div>
+
+    <div class="book-card-body">
+        <div class="book-card-side">
+            {% if cover_url %}
+                <img class="book-card-cover" src="{{ cover_url }}" alt="{{ post.title }}" loading="lazy">
+            {% elif post.image %}
+                <img class="book-card-cover" src="{{ post.image }}" alt="{{ post.title }}" loading="lazy">
+            {% endif %}
+        </div>
+
+        <div class="book-card-text">
+            <span class="book-card-title p-name">{{ post.title }}</span>
+            {% if post.subtitle %}
+                <span class="book-card-subtitle p-summary">{{ post.subtitle }}</span>
+            {% endif %}
+            {% if post.data.rating %}
+                <div class="book-card-rating">
+                    <span class="book-card-rating-score">{{ post.data.rating }}</span><span class="book-card-rating-scale">/10</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</a>
+{% endwith %}

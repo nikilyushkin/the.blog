@@ -26,7 +26,8 @@ def prepare_letter(html, base_url):
 
 def send_vas3k_email(subscriber: Subscriber, subject: str, html: str, force: bool = False, **kwargs):
     if not subscriber.is_confirmed and not force:
-        log.warn(f"Not sending to {subscriber.email}. Not confirmed")
+        log.warning(f"Not sending to {subscriber.email}. Not confirmed")
+        return 0
 
     prepared_html = prepare_letter(html, base_url=f"https://{settings.APP_HOST}")
 
