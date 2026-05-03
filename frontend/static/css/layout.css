@@ -445,7 +445,7 @@
 
     .simple-headline-date {
         font-size: 90%;
-        color: #333;
+        opacity: 0.55;
     }
 
     .simple-headline-title,

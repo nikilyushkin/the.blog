@@ -323,10 +323,7 @@
 
     .feed-full-date {
         display: block;
-        font-family: var(--sans-font);
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
+        font-size: 90%;
         opacity: 0.55;
         margin-bottom: 16px;
     }
@@ -393,3 +390,123 @@
             font-size: 115%;
         }
     }
+
+
+/* Book cards — flat row with cover, used on /books/ and home */
+
+.book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 40px auto;
+}
+
+.book-card,
+.book-card:visited {
+    position: relative;
+    display: block;
+    padding: 24px 30px;
+    background-color: var(--block-bg-color);
+    box-shadow: var(--block-shadow);
+    border-radius: var(--block-border-radius);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: 0.2s ease-out;
+    -webkit-tap-highlight-color: transparent;
+}
+
+    .book-card:hover,
+    .book-card:focus {
+        box-shadow: 0 0 40px rgba(94, 104, 125, 0.3);
+        outline: none;
+    }
+
+    .book-card-meta {
+        font-size: 13px;
+        opacity: 0.55;
+        margin-bottom: 18px;
+    }
+
+    .book-card-body {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 26px;
+        align-items: start;
+    }
+
+        .book-card-side {
+            display: block;
+        }
+
+            .book-card-cover {
+                width: 110px;
+                height: auto;
+                display: block;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+                border-radius: 3px;
+            }
+
+        .book-card-rating {
+            display: flex;
+            align-items: baseline;
+            gap: 3px;
+            margin-top: 4px;
+        }
+
+                .book-card-rating-score {
+                    font-size: 220%;
+                    font-weight: 700;
+                    color: #55177a;
+                    line-height: 1;
+                }
+
+                html[theme="dark"] .book-card-rating-score {
+                    color: #b388ff;
+                }
+
+                .book-card-rating-scale {
+                    font-size: 95%;
+                    opacity: 0.5;
+                }
+
+        .book-card-text {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+            .book-card-title {
+                display: block;
+                font-size: 175%;
+                font-weight: 600;
+                line-height: 1.2;
+                color: var(--text-color);
+            }
+
+            .book-card-subtitle {
+                display: block;
+                font-size: 100%;
+                font-weight: 300;
+                line-height: 1.45;
+                opacity: 0.7;
+            }
+
+@media (max-width: 570px) {
+    .book-card,
+    .book-card:visited {
+        padding: 18px 20px;
+    }
+
+    .book-card-body {
+        grid-template-columns: 80px 1fr;
+        gap: 18px;
+    }
+
+        .book-card-cover {
+            width: 80px;
+        }
+
+        .book-card-title {
+            font-size: 130%;
+        }
+}

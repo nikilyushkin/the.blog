@@ -130,6 +130,33 @@ def test_index_includes_stream_section(client, stream_post):
     assert b"A quick thought" in response.content
 
 
+@pytest.fixture
+def book_post_no_data(db):
+    return Post.objects.create(
+        type="books",
+        slug="test-book",
+        author="nik",
+        title="Test Book",
+        text="[[[\n\nContent.\n\n]]]",
+        created_at=datetime.utcnow(),
+        is_visible=True,
+        data=None,
+    )
+
+
+def test_books_show_post_no_data_renders_200(client, book_post_no_data):
+    response = client.get(f"/books/{book_post_no_data.slug}/")
+    assert response.status_code == 200
+    assert b"book-headline" in response.content
+    assert b"Test Book" in response.content
+
+
+def test_books_list_with_no_data_renders_200(client, book_post_no_data):
+    response = client.get("/books/")
+    assert response.status_code == 200
+    assert b"book-card" in response.content
+
+
 def test_show_post_metadata_is_in_english(client, post):
     response = client.get(f"/blog/{post.slug}/")
     assert response.status_code == 200
