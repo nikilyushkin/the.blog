@@ -1,7 +1,7 @@
 import logging
 
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMessage
 from premailer import Premailer
 
 from inside.models import Subscriber
@@ -29,7 +29,7 @@ def send_vas3k_email(subscriber: Subscriber, subject: str, html: str, force: boo
 
     prepared_html = prepare_letter(html, base_url=f"https://{settings.APP_HOST}")
 
-    email = EmailMultiAlternatives(
+    email = EmailMessage(
         subject=subject,
         body=prepared_html,
         from_email=settings.DEFAULT_FROM_EMAIL,
@@ -39,6 +39,5 @@ def send_vas3k_email(subscriber: Subscriber, subject: str, html: str, force: boo
         },
         **kwargs
     )
-    email.attach_alternative(prepared_html, "text/html")
     email.content_subtype = "html"
     return email.send(fail_silently=False)
