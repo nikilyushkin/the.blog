@@ -143,6 +143,13 @@
     box-sizing: border-box;
 }
 
+@media (max-width: 570px) {
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
     .container-width-max {
         max-width: var(--max-content-width);
     }
@@ -505,6 +512,13 @@
     padding: 30px 40px;
     line-height: 1.5em;
     max-width: 900px;
+}
+
+@media (max-width: 570px) {
+    .index-block-about {
+        padding: 24px 22px;
+        font-size: 110%;
+    }
 }
 
     .index-block-about a {

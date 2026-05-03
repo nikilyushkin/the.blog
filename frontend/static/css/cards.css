@@ -246,13 +246,13 @@
         @media (max-width: 570px) {
             .feed-post-with-image,
             .feed-post-with-image:visited {
-                padding-left: 60px;
+                padding-left: 76px;
             }
 
             .feed-post-image {
                 width: 48px;
                 height: 48px;
-                left: -18px;
+                left: 16px;
                 border-width: 2px;
             }
         }
