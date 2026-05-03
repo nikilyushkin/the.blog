@@ -757,10 +757,8 @@
         margin: 20px auto 60px;
         max-width: 550px;
         min-width: 280px;
-        padding: 20px;
+        padding: 0;
         box-sizing: border-box;
-        color: #FFF;
-        background-color: #333;
         text-align: left;
     }
 
@@ -785,13 +783,15 @@
             }
 
         .post-subscribe-form input[name=email] {
-            padding: 7px 0 4px;
-            border: solid 2px #FFF;
+            padding: 7px 12px 4px;
+            border: solid 2px var(--text-color);
             border-radius: 5px;
             box-sizing: border-box;
-            text-align: center;
+            text-align: left;
             height: 50px;
             width: 100%;
+            background-color: transparent;
+            color: var(--text-color);
         }
 
         .post-subscribe-form button {
