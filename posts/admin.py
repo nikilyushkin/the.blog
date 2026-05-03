@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django import forms
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect
 from django.urls import path, reverse
@@ -8,9 +9,56 @@ from django.utils.html import format_html
 from inside.models import Subscriber
 from inside.senders.email import send_post_newsletter
 from posts.models import Post
+from posts.openlibrary import fetch_book_metadata
+from posts.templatetags.books import amazon_asin
+
+
+BOOK_DATA_FIELDS = (
+    "author", "year", "pages", "rating",
+    "amazon_url", "bookshop_url", "goodreads_url", "domain",
+)
+
+
+class PostAdminForm(forms.ModelForm):
+    book_author = forms.CharField(label="Author", required=False)
+    book_year = forms.IntegerField(label="Year", required=False)
+    book_pages = forms.IntegerField(label="Pages", required=False)
+    book_rating = forms.IntegerField(label="Rating (1-10)", required=False, min_value=1, max_value=10)
+    book_amazon_url = forms.URLField(label="Amazon URL", required=False)
+    book_bookshop_url = forms.URLField(label="Bookshop URL", required=False)
+    book_goodreads_url = forms.URLField(label="Goodreads URL", required=False)
+    book_domain = forms.CharField(label="Domain / topic", required=False)
+
+    class Meta:
+        model = Post
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        data = (self.instance.data or {}) if self.instance else {}
+        for field in BOOK_DATA_FIELDS:
+            value = data.get(field)
+            if value is not None:
+                self.fields[f"book_{field}"].initial = value
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if instance.type == "books":
+            data = dict(instance.data or {})
+            for field in BOOK_DATA_FIELDS:
+                value = self.cleaned_data.get(f"book_{field}")
+                if value in (None, ""):
+                    data.pop(field, None)
+                else:
+                    data[field] = value
+            instance.data = data
+        if commit:
+            instance.save()
+        return instance
 
 
 class PostAdmin(admin.ModelAdmin):
+    form = PostAdminForm
     list_display = (
         "title", "slug", "type", "created_at",
         "published_at", "comment_count", "view_count",
@@ -18,6 +66,30 @@ class PostAdmin(admin.ModelAdmin):
     )
     ordering = ("-created_at",)
     change_form_template = "admin/posts/post/change_form.html"
+
+    fieldsets = (
+        (None, {
+            "fields": (
+                "slug", "type", "author", "url",
+                "title", "subtitle", "image",
+                "og_title", "og_image", "og_description", "announce_text",
+                "text", "html_cache", "data", "css",
+                "created_at", "published_at",
+                "comment_count", "view_count", "word_count",
+                "is_raw_html", "is_visible", "is_members_only",
+                "is_commentable", "is_visible_on_home_page",
+                "newsletter_sent_at",
+            ),
+        }),
+        ("Book metadata (only used when type = books)", {
+            "classes": ("collapse",),
+            "fields": (
+                "book_author", "book_year", "book_pages", "book_rating",
+                "book_amazon_url", "book_bookshop_url", "book_goodreads_url",
+                "book_domain",
+            ),
+        }),
+    )
 
     def newsletter_status(self, obj):
         if obj.newsletter_sent_at:
@@ -40,6 +112,11 @@ class PostAdmin(admin.ModelAdmin):
                 "<uuid:object_id>/send-test-newsletter/",
                 self.admin_site.admin_view(self.send_test_newsletter_view),
                 name="posts_post_send_test_newsletter",
+            ),
+            path(
+                "<uuid:object_id>/fetch-book-metadata/",
+                self.admin_site.admin_view(self.fetch_book_metadata_view),
+                name="posts_post_fetch_book_metadata",
             ),
         ]
         return custom + urls
@@ -111,6 +188,64 @@ class PostAdmin(admin.ModelAdmin):
         else:
             messages.success(request, f"Test newsletter sent to {test_email}.")
 
+        return self._back(object_id)
+
+    def fetch_book_metadata_view(self, request, object_id):
+        if not request.user.is_superuser:
+            messages.error(request, "Superuser only.")
+            return self._back(object_id)
+
+        post = self.get_object(request, object_id)
+        if not post:
+            messages.error(request, "Post not found.")
+            return self._back(object_id)
+
+        if post.type != "books":
+            messages.error(request, "Only books posts have Amazon metadata.")
+            return self._back(object_id)
+
+        amazon_url = (post.data or {}).get("amazon_url")
+        isbn = amazon_asin(amazon_url)
+        if not isbn:
+            messages.error(
+                request,
+                "No Amazon URL found in book metadata. Add it first and save.",
+            )
+            return self._back(object_id)
+
+        fetched = fetch_book_metadata(isbn)
+        if not fetched:
+            messages.warning(
+                request,
+                f"Open Library returned nothing for ISBN={isbn}. "
+                f"Either it's not in their catalogue or the lookup failed.",
+            )
+            return self._back(object_id)
+
+        data = dict(post.data or {})
+        added = []
+        skipped = []
+        for key, value in fetched.items():
+            if data.get(key):
+                skipped.append(key)
+            else:
+                data[key] = value
+                added.append(f"{key}={value}")
+
+        post.data = data
+        post.save(flush_cache=False)
+
+        if added:
+            msg = f"Filled: {', '.join(added)}."
+            if skipped:
+                msg += f" Skipped (already set): {', '.join(skipped)}."
+            messages.success(request, msg)
+        else:
+            messages.info(
+                request,
+                f"All fields already set; nothing to fill. Open Library had: "
+                f"{', '.join(fetched.keys())}.",
+            )
         return self._back(object_id)
 
     def _back(self, object_id):
