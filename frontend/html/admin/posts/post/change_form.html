@@ -1,0 +1,29 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+    {% if original.id %}
+        <fieldset class="module aligned">
+            <h2>Newsletter</h2>
+            <div class="form-row" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <a href="{% url 'admin:posts_post_send_test_newsletter' original.id %}"
+                   class="button"
+                   onclick="return confirm('Send a TEST newsletter for this post to your email ({{ request.user.email }})?');">
+                    Send test to me
+                </a>
+
+                <a href="{% url 'admin:posts_post_send_newsletter' original.id %}"
+                   class="button default"
+                   onclick="return confirm('Send this post to ALL confirmed subscribers? This cannot be undone.');">
+                    Send to all subscribers
+                </a>
+
+                {% if original.newsletter_sent_at %}
+                    <span style="color: #1b8a3a;">
+                        Already sent on {{ original.newsletter_sent_at|date:'Y-m-d H:i' }} UTC
+                    </span>
+                {% endif %}
+            </div>
+        </fieldset>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}

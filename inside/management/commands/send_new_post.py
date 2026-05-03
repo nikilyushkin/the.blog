@@ -1,68 +1,54 @@
 import logging
+from datetime import datetime
 
 from django.core.management import BaseCommand
-from django.template import loader
 
 from inside.models import Subscriber
-from inside.senders.email import send_vas3k_email
+from inside.senders.email import send_post_newsletter
 from posts.models import Post
 
 log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = "Send new post announcement via email"
+    help = "Send the latest visible post as a newsletter"
 
     def add_arguments(self, parser):
         parser.add_argument("--production", type=bool, required=False, default=False)
         parser.add_argument("--auto-confirm", type=bool, required=False, default=False)
+        parser.add_argument("--test-email", type=str, required=False, default=None,
+                            help="Override test recipient (default: hi@nikilyushk.in)")
 
     def handle(self, *args, **options):
-        production = options.get("production")
-
-        # Step 1. Check for a new post
         post = Post.visible_objects().order_by("-published_at").first()
-
         if not post:
-            self.stdout.write(f"No new posts. Exiting...")
+            self.stdout.write("No new posts. Exiting...")
             return
 
-        # Step 2. Select all confirmed subscribers
-        if production:
-            subscribers = Subscriber.objects.filter(is_confirmed=True).all()
+        if options.get("production"):
+            subscribers = list(Subscriber.objects.filter(is_confirmed=True))
+            subject_prefix = ""
         else:
-            subscribers = Subscriber.objects.filter(email="hi@nikilyushk.in").all()
+            test_email = options.get("test_email") or "hi@nikilyushk.in"
+            subscribers = [
+                Subscriber(email=test_email, secret_hash="test", is_confirmed=True)
+            ]
+            subject_prefix = "[TEST] "
 
-        # Step 3. Confirm
-        auto_confirm = options.get("auto_confirm")
-        if not auto_confirm:
-            confirm = input(f"Confirm sending new post '{post.title}' to {len(subscribers)} subscribers? [y/N]: ")
+        if not options.get("auto_confirm"):
+            confirm = input(
+                f"Send '{post.title}' to {len(subscribers)} recipient(s)? [y/N]: "
+            )
             if confirm != "y":
-                self.stdout.write(f"Not confirmed. Exiting...")
+                self.stdout.write("Not confirmed. Exiting...")
                 return
 
-        # Step 4. Load newsletter template
-        new_post_template = loader.get_template("emails/new_post.html")
+        sent, failures = send_post_newsletter(post, subscribers, subject_prefix=subject_prefix)
+        self.stdout.write(f"Sent {sent}/{len(subscribers)}")
+        for email, err in failures:
+            self.stdout.write(f"  failed: {email}: {err}")
 
-        # Step 3. Send emails
-        for subscriber in subscribers:
-            self.stdout.write(f"Generating newsletter for user: {subscriber.email}")
-
-            # render user digest email
-            html = new_post_template.render({
-                "post": post,
-                "subscriber": subscriber,
-            })
-
-            # send a letter
-            try:
-                send_vas3k_email(
-                    subscriber=subscriber,
-                    subject=f"New post from Nik: {post.title}",
-                    html=html
-                )
-            except Exception as ex:
-                self.stdout.write(f"Sending to {subscriber.email} failed: {ex}")
-                continue
-
-        self.stdout.write("Done 🥙")
+        if options.get("production") and sent:
+            post.newsletter_sent_at = datetime.utcnow()
+            post.save(flush_cache=False)
+            self.stdout.write(f"newsletter_sent_at = {post.newsletter_sent_at}")
