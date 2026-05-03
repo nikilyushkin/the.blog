@@ -29,11 +29,6 @@
             <span>Stream</span>
         </a>
 
-        <a href="{% url "subscribe" %}" class="button button-inverted header-menu-item">
-            <span><i class="fas fa-envelope"></i></span>
-            <span>Subscribe</span>
-        </a>
-
         <a href="{% url "list_posts" "all" %}" class="button button-inverted header-menu-item">
             <span><i class="fas fa-newspaper"></i></span>
             <span>All Posts</span>
@@ -43,6 +38,13 @@
             <span>👍</span>
             <span>Donate</span>
         </a-->
+
+        <div class="header-menu-divider"></div>
+
+        <a href="{% url "subscribe" %}" class="button button-inverted header-menu-item">
+            <span><i class="fas fa-envelope"></i></span>
+            <span>Subscribe</span>
+        </a>
 
         <div class="button button-inverted button-round header-menu-item header-menu-round" onclick="return toggleHeaderSearch(event, '#header-search');">
             <i class="fas fa-search"></i>
