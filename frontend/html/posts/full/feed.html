@@ -4,7 +4,7 @@
 {% block headline %}
     <div class="container container-feed">
         <div class="feed-full-headline">
-            <time class="feed-full-date dt-published" datetime="{{ post.published_at|date:'Y-m-d' }}">{{ post.published_at|date:"d M Y" }}</time>
+            <time class="feed-full-date dt-published" datetime="{{ post.published_at|date:'Y-m-d' }}">{{ post.published_at|date:"d M" }}</time>
             <h1 class="feed-full-title the-title p-name">
                 {% if request.user.is_superuser %}<a href="{% url "edit_post" post.type post.slug %}">✏️</a>{% endif %}
                 {{ post.title|safe }}
