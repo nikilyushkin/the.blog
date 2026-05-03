@@ -46,6 +46,8 @@ class Post(models.Model):
     is_commentable = models.BooleanField(default=True)
     is_visible_on_home_page = models.BooleanField(default=False)
 
+    newsletter_sent_at = models.DateTimeField(null=True, blank=True)
+
     class Meta:
         db_table = "posts"
         ordering = ("-created_at",)
