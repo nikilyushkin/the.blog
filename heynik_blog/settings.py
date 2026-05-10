@@ -198,11 +198,24 @@ MAX_COMMENTS_PER_24H = 50
 
 AMAZON_AFFILIATE_TAG = os.getenv("AMAZON_AFFILIATE_TAG", "")
 
+def _sentry_before_send(event, hint):
+    exc_info = hint.get("exc_info")
+    if exc_info:
+        exc_type, exc_value, _ = exc_info
+        if exc_type is ValueError and "lifespan" in str(exc_value):
+            return None
+    return event
+
+
 if SENTRY_DSN and not DEBUG:
     # activate sentry on production
-    sentry_sdk.init(dsn=SENTRY_DSN, integrations=[
-        DjangoIntegration(),
-    ])
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        environment="production",
+        release=os.getenv("GITHUB_SHA") or None,
+        before_send=_sentry_before_send,
+    )
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]
