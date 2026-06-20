@@ -1,10 +1,11 @@
 import random
-from datetime import datetime, timedelta
+from datetime import timedelta
 from uuid import uuid4
 
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.utils import timezone
 
 from users.avatars import AVATARS
 from utils.strings import random_string
@@ -89,12 +90,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         if not self.avatar:
             self.avatar = self.get_avatar()
 
-        self.updated_at = datetime.utcnow()
-        self.last_activity_at = datetime.utcnow()
+        self.updated_at = timezone.now()
+        self.last_activity_at = timezone.now()
         return super().save(*args, **kwargs)
 
     def update_last_activity(self):
-        now = datetime.utcnow()
+        now = timezone.now()
         if self.last_activity_at < now - timedelta(minutes=5):
             return User.objects.filter(id=self.id).update(last_activity_at=now)
 
