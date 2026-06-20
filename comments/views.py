@@ -1,6 +1,7 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.conf import settings
+from django.utils import timezone
 from django.http import HttpResponseForbidden, HttpResponseNotAllowed, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 
@@ -29,7 +30,7 @@ def create_comment(request):
     ipaddress = parse_ip_address(request)
     same_ip_comments_24h = Comment.objects.filter(
         ipaddress=ipaddress,
-        created_at__gte=datetime.utcnow() - timedelta(hours=24)
+        created_at__gte=timezone.now() - timedelta(hours=24)
     ).count()
     if same_ip_comments_24h >= settings.MAX_COMMENTS_PER_24H:
         return HttpResponseBadRequest(
@@ -42,7 +43,7 @@ def create_comment(request):
         post=post,
         block=form.cleaned_data.get("block"),
         text=form.cleaned_data.get("text"),
-        created_at=datetime.utcnow(),
+        created_at=timezone.now(),
     )
 
     Post.objects.filter(id=post.id).update(

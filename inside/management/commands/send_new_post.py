@@ -1,7 +1,7 @@
 import logging
-from datetime import datetime
 
 from django.core.management import BaseCommand
+from django.utils import timezone
 
 from inside.models import Subscriber
 from inside.senders.email import send_post_newsletter
@@ -55,6 +55,6 @@ class Command(BaseCommand):
             self.stdout.write(f"  failed: {email}: {err}")
 
         if options.get("production") and sent:
-            post.newsletter_sent_at = datetime.utcnow()
+            post.newsletter_sent_at = timezone.now()
             post.save(flush_cache=False)
             self.stdout.write(f"newsletter_sent_at = {post.newsletter_sent_at}")

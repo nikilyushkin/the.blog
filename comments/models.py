@@ -1,11 +1,12 @@
 import random
-from datetime import datetime, timedelta
+from datetime import timedelta
 from uuid import uuid4
 
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.template.defaultfilters import date as django_date
 from django.db import models
 from django.db.models import F
+from django.utils import timezone
 
 from posts.models import Post
 from users.avatars import AVATARS
@@ -47,7 +48,7 @@ class Comment(models.Model):
         if self.reply_to and self.reply_to.reply_to and self.reply_to.reply_to.reply_to_id:
             raise BadRequest(message="3 level thread is a maximum")
 
-        self.updated_at = datetime.utcnow()
+        self.updated_at = timezone.now()
         return super().save(*args, **kwargs)
 
     def delete(self, deleted_by=None, *args, **kwargs):
@@ -78,7 +79,7 @@ class Comment(models.Model):
         return comments
 
     def natural_created_at(self):
-        if self.created_at > datetime.utcnow() - timedelta(days=7):
+        if self.created_at > timezone.now() - timedelta(days=7):
             return naturaltime(self.created_at)
         return django_date(self.created_at, "d M Y \\a\\t H:i")
 

@@ -1,8 +1,8 @@
-from datetime import datetime
 from uuid import uuid4
 
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.html import strip_tags
 
 from utils.slug import generate_unique_slug
@@ -57,24 +57,24 @@ class Post(models.Model):
 
     @classmethod
     def visible_objects(cls):
-        return cls.objects.filter(is_visible=True, published_at__lte=datetime.utcnow()).order_by("-published_at")
+        return cls.objects.filter(is_visible=True, published_at__lte=timezone.now()).order_by("-published_at")
 
     def save(self, flush_cache=True, *args, **kwargs):
         if not self.slug:
             self.slug = generate_unique_slug(Post, self.title)
 
         if not self.published_at and self.is_visible:
-            self.published_at = datetime.utcnow()
+            self.published_at = timezone.now()
 
         if flush_cache:
             self.html_cache = None
             self.word_count = strip_tags(self.text).count(" ") if self.text else 0
 
-        self.updated_at = datetime.utcnow()
+        self.updated_at = timezone.now()
         return super().save(*args, **kwargs)
 
     def is_published(self):
-        return self.is_visible and self.published_at < datetime.utcnow()
+        return self.is_visible and self.published_at < timezone.now()
 
     def get_absolute_url(self):
         if self.url:

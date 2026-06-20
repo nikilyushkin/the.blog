@@ -1,9 +1,8 @@
-from datetime import datetime
-
 from django import forms
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect
 from django.urls import path, reverse
+from django.utils import timezone
 from django.utils.html import format_html
 
 from inside.models import Subscriber
@@ -148,7 +147,7 @@ class PostAdmin(admin.ModelAdmin):
 
         sent, failures = send_post_newsletter(post, subscribers)
 
-        post.newsletter_sent_at = datetime.utcnow()
+        post.newsletter_sent_at = timezone.now()
         post.save(flush_cache=False)
 
         if failures:
