@@ -24,17 +24,23 @@
     <meta property="article:author" content="{{ request.scheme }}://{{ request.get_host }}">
     <meta property="article:published_time" content="{{ post.published_at|date:'Y-m-d H:i:s' }}">
 
+    {# Fall back to the regular post fields so social previews never render a literal "None" #}
+    {% firstof post.og_title post.title as og_title %}
+    {% firstof post.og_description post.subtitle settings.DESCRIPTION as og_description %}
+    {% static "images/og_default.png" as og_default_path %}
+    {% firstof post.og_image post.main_image as og_image %}
+
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{{ post.og_title }}" />
-    <meta property="og:description" content="{{ post.og_description }}" />
-    <meta property="og:image" content="{{ post.og_image }}" />
+    <meta property="og:title" content="{{ og_title }}" />
+    <meta property="og:description" content="{{ og_description }}" />
+    <meta property="og:image" content="{% if og_image %}{{ og_image }}{% else %}{{ request.scheme }}://{{ request.get_host }}{{ og_default_path }}{% endif %}" />
     <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ post.get_absolute_url }}" />
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ post.og_title }}">
-    <meta name="twitter:description" content="{{ post.og_description }}">
-    <meta name="twitter:image" content="{{ post.og_image }}">
-    <meta name="twitter:image:src" content="{{ post.og_image }}">
+    <meta name="twitter:title" content="{{ og_title }}">
+    <meta name="twitter:description" content="{{ og_description }}">
+    <meta name="twitter:image" content="{% if og_image %}{{ og_image }}{% else %}{{ request.scheme }}://{{ request.get_host }}{{ og_default_path }}{% endif %}">
+    <meta name="twitter:image:src" content="{% if og_image %}{{ og_image }}{% else %}{{ request.scheme }}://{{ request.get_host }}{{ og_default_path }}{% endif %}">
     <meta name="twitter:creator" content="{{ settings.AUTHOR }}">
 {% endblock %}
 
