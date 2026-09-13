@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db.models import F
 from django.http import Http404, HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,7 +11,10 @@ from heynik_blog.posts import POST_TYPES
 
 
 def index(request):
-    base = Post.visible_objects().filter(is_visible_on_home_page=True)
+    if wants_markdown(request):
+        return render_index_markdown(request)
+
+    base =Post.visible_objects().filter(is_visible_on_home_page=True)
 
     # HERO + RECENT share one source: latest 4 from {thoughts, blog}.
     # First → HERO, next 3 → RECENT 3-up. Their ids are excluded from THOUGHTS.
@@ -112,7 +116,7 @@ def show_post(request, post_type, post_slug):
         return redirect(post.url)
 
     # AI agents can ask for the markdown source via "Accept: text/markdown"
-    if not post.is_raw_html and request.get_preferred_type(["text/html", "text/markdown"]) == "text/markdown":
+    if not post.is_raw_html and wants_markdown(request):
         return render_post_markdown(post)
 
     comments = Comment.visible_objects()\
@@ -125,14 +129,38 @@ def show_post(request, post_type, post_slug):
     })
 
 
-def render_post_markdown(post):
-    parts = [f"# {post.title}" if post.title else None, post.subtitle, post.text]
+def wants_markdown(request):
+    return request.get_preferred_type(["text/html", "text/markdown"]) == "text/markdown"
+
+
+def markdown_response(parts):
     response = HttpResponse(
         "\n\n".join(part for part in parts if part),
         content_type="text/markdown; charset=utf-8",
     )
     response["Vary"] = "Accept"
     return response
+
+
+def render_post_markdown(post):
+    return markdown_response([f"# {post.title}" if post.title else None, post.subtitle, post.text])
+
+
+def render_index_markdown(request):
+    posts = Post.visible_objects().filter(is_members_only=False)
+    lines = [
+        f"- [{post.title or post.slug}]({request.build_absolute_uri(post.get_absolute_url())})"
+        f" ({post.published_at:%Y-%m-%d})"
+        + (f" — {post.subtitle}" if post.subtitle else "")
+        for post in posts
+    ]
+    return markdown_response([
+        f"# {settings.TITLE}",
+        settings.DESCRIPTION,
+        "## Posts",
+        "\n".join(lines),
+        f"RSS: {request.build_absolute_uri('/rss/')}\nSitemap: {request.build_absolute_uri('/sitemap.xml')}",
+    ])
 
 
 def edit_post(request, post_type, post_slug):

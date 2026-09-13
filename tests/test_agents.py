@@ -14,6 +14,20 @@ def test_show_post_returns_markdown_on_request(client, post):
     assert b"This is a **test** post." in response.content
 
 
+def test_index_returns_markdown_on_request(client, post):
+    response = client.get("/", HTTP_ACCEPT="text/markdown")
+    assert response.status_code == 200
+    assert response["Content-Type"].startswith("text/markdown")
+    assert b"[Hello World](http://testserver/blog/hello-world/)" in response.content
+
+
+def test_index_markdown_hides_members_only_posts(client, post):
+    post.is_members_only = True
+    post.save()
+    response = client.get("/", HTTP_ACCEPT="text/markdown")
+    assert b"Hello World" not in response.content
+
+
 def test_show_post_returns_html_for_browsers(client, post):
     response = client.get(
         f"/blog/{post.slug}/",
