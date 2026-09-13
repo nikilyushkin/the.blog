@@ -18,7 +18,7 @@ def test_index_returns_markdown_on_request(client, post):
     response = client.get("/", HTTP_ACCEPT="text/markdown")
     assert response.status_code == 200
     assert response["Content-Type"].startswith("text/markdown")
-    assert b"[Hello World](http://testserver/blog/hello-world/)" in response.content
+    assert b"[Hello World](https://testserver/blog/hello-world/)" in response.content
 
 
 def test_index_markdown_hides_members_only_posts(client, post):

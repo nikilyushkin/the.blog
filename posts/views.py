@@ -147,9 +147,13 @@ def render_post_markdown(post):
 
 
 def render_index_markdown(request):
+    # behind the proxy the scheme isn't forwarded, so pin https like robots.txt does
+    def absolute(url):
+        return url if url.startswith("http") else f"https://{request.get_host()}{url}"
+
     posts = Post.visible_objects().filter(is_members_only=False)
     lines = [
-        f"- [{post.title or post.slug}]({request.build_absolute_uri(post.get_absolute_url())})"
+        f"- [{post.title or post.slug}]({absolute(post.get_absolute_url())})"
         f" ({post.published_at:%Y-%m-%d})"
         + (f" — {post.subtitle}" if post.subtitle else "")
         for post in posts
@@ -159,7 +163,7 @@ def render_index_markdown(request):
         settings.DESCRIPTION,
         "## Posts",
         "\n".join(lines),
-        f"RSS: {request.build_absolute_uri('/rss/')}\nSitemap: {request.build_absolute_uri('/sitemap.xml')}",
+        f"RSS: {absolute('/rss/')}\nSitemap: {absolute('/sitemap.xml')}",
     ])
 
 
