@@ -10,11 +10,21 @@ from posts.renderers import render_list, render_list_all, render_post
 from heynik_blog.posts import POST_TYPES
 
 
-def index(request):
-    if wants_markdown(request):
-        return render_index_markdown(request)
+DISCOVERY_LINKS = ", ".join([
+    '</.well-known/api-catalog>; rel="api-catalog"',
+    '</>; rel="alternate"; type="text/markdown"',
+    '</rss/>; rel="alternate"; type="application/rss+xml"',
+])
 
-    base =Post.visible_objects().filter(is_visible_on_home_page=True)
+
+def index(request):
+    response = render_index_markdown(request) if wants_markdown(request) else render_index_html(request)
+    response["Link"] = DISCOVERY_LINKS
+    return response
+
+
+def render_index_html(request):
+    base = Post.visible_objects().filter(is_visible_on_home_page=True)
 
     # HERO + RECENT share one source: latest 4 from {thoughts, blog}.
     # First → HERO, next 3 → RECENT 3-up. Their ids are excluded from THOUGHTS.

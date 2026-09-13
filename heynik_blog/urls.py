@@ -10,7 +10,7 @@ from inside.views import donate, subscribe, confirm, unsubscribe
 from posts.sitemaps import sitemaps
 from posts.views import index, show_post, list_posts, edit_post
 from rss.feeds import FullFeed, PublicFeed, PrivateFeed
-from users.views import profile, robots
+from users.views import profile, robots, api_catalog
 from authn.views import log_in, log_out
 
 urlpatterns = [
@@ -41,6 +41,7 @@ urlpatterns = [
 
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", robots, name="robots"),
+    path(".well-known/api-catalog", api_catalog, name="api_catalog"),
 
     path(r"<str:post_type>/<str:post_slug>/", show_post, name="show_post"),
     path(r"<str:post_type>/<str:post_slug>/edit/", edit_post, name="edit_post"),

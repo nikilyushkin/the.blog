@@ -41,3 +41,17 @@ def test_members_only_post_is_not_leaked_as_markdown(client, post):
     post.save()
     response = client.get(f"/blog/{post.slug}/", HTTP_ACCEPT="text/markdown")
     assert not response["Content-Type"].startswith("text/markdown")
+
+
+def test_index_has_discovery_link_headers(client, post):
+    for accept in ("text/html", "text/markdown"):
+        response = client.get("/", HTTP_ACCEPT=accept)
+        assert '</.well-known/api-catalog>; rel="api-catalog"' in response["Link"]
+
+
+def test_api_catalog_is_a_linkset(client, db):
+    response = client.get("/.well-known/api-catalog")
+    assert response.status_code == 200
+    assert response["Content-Type"].startswith("application/linkset+json")
+    items = response.json()["linkset"][0]["item"]
+    assert any(item["href"].endswith("/rss/") for item in items)

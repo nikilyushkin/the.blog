@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from users.forms import UserEditForm
@@ -58,3 +58,20 @@ def robots(request):
         f"Sitemap: https://{request.get_host()}/sitemap.xml",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+def api_catalog(request):
+    # RFC 9727 linkset: the blog has no API, so it lists its machine-readable resources
+    base = f"https://{request.get_host()}"
+    response = JsonResponse({
+        "linkset": [{
+            "anchor": f"{base}/.well-known/api-catalog",
+            "item": [
+                {"href": f"{base}/rss/", "type": "application/rss+xml", "title": "Full RSS feed"},
+                {"href": f"{base}/sitemap.xml", "type": "application/xml", "title": "Sitemap"},
+                {"href": f"{base}/", "type": "text/markdown", "title": "Home page as markdown (Accept: text/markdown)"},
+            ],
+        }],
+    }, content_type='application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"')
+    response["Link"] = '</.well-known/api-catalog>; rel="api-catalog"'
+    return response
