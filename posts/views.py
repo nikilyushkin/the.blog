@@ -1,5 +1,5 @@
 from django.db.models import F
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404, HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
 from comments.models import Comment
@@ -111,6 +111,10 @@ def show_post(request, post_type, post_slug):
     if post.url:
         return redirect(post.url)
 
+    # AI agents can ask for the markdown source via "Accept: text/markdown"
+    if not post.is_raw_html and request.get_preferred_type(["text/html", "text/markdown"]) == "text/markdown":
+        return render_post_markdown(post)
+
     comments = Comment.visible_objects()\
         .filter(post=post)\
         .order_by("created_at")
@@ -119,6 +123,16 @@ def show_post(request, post_type, post_slug):
         "post": post,
         "comments": comments,
     })
+
+
+def render_post_markdown(post):
+    parts = [f"# {post.title}" if post.title else None, post.subtitle, post.text]
+    response = HttpResponse(
+        "\n\n".join(part for part in parts if part),
+        content_type="text/markdown; charset=utf-8",
+    )
+    response["Vary"] = "Accept"
+    return response
 
 
 def edit_post(request, post_type, post_slug):

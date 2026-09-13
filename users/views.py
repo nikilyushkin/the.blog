@@ -21,13 +21,40 @@ def profile(request):
     })
 
 
+AI_CRAWLERS = [
+    "GPTBot",
+    "OAI-SearchBot",
+    "ChatGPT-User",
+    "ClaudeBot",
+    "Claude-SearchBot",
+    "Claude-User",
+    "anthropic-ai",
+    "Google-Extended",
+    "PerplexityBot",
+    "Perplexity-User",
+    "Applebot-Extended",
+    "CCBot",
+    "meta-externalagent",
+]
+
+
 def robots(request):
-    lines = [
-        "User-agent: *",
-        f"Host: https://{request.get_host()}",
-        f"Sitemap: https://{request.get_host()}/sitemap.xml",
+    rules = [
+        "Content-Signal: search=yes, ai-input=yes, ai-train=yes",
+        "Allow: /",
         "Disallow: /clickers/",
         "Disallow: /auth/",
+    ]
+    lines = [
+        "User-agent: *",
+        *rules,
         "Clean-param: comment_order&goto&preview /",
+        "",
+        # a named group overrides "*", so AI bots get the same rules explicitly
+        *[f"User-agent: {bot}" for bot in AI_CRAWLERS],
+        *rules,
+        "",
+        f"Host: https://{request.get_host()}",
+        f"Sitemap: https://{request.get_host()}/sitemap.xml",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
