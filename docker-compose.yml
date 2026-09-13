@@ -23,7 +23,7 @@ services:
       - "8000:8000"
 
   postgres:
-    image: postgres:15
+    image: postgres:16
     container_name: blog_postgres
     environment:
       - POSTGRES_USER=postgres

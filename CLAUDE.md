@@ -33,7 +33,7 @@ docker compose exec -T blog_app make migrate
 docker compose exec -T blog_app poetry run pytest --tb=short -q
 ```
 
-The compose service is named `blog_app` (matches `docker-compose.production.yml` and CI). The legacy name `club_app` was retired in favor of a single consistent name.
+The compose service is named `blog_app`. The legacy name `club_app` was retired in favor of a single consistent name.
 
 CI (`.github/workflows/check_build_and_run.yml`) runs `docker compose up -d`, waits for the app container, then runs `make migrate` and `pytest` inside it — tests are expected to pass against a real Postgres, not mocks.
 
@@ -65,4 +65,6 @@ Templates live outside the apps in `frontend/html/{index,posts,comments,emails,u
 
 ## Deployment
 
-`.github/workflows/deploy.yml` runs on push to `main`: builds an ARM64 image, pushes to `ghcr.io/<actor>/blog`, rsyncs the repo to the production host, and runs `docker compose -f docker-compose.production.yml up -d` over SSH. Secrets are injected into `.env` at deploy time. `GITHUB_SHA` is used as `STYLES_HASH` for cache-busting static assets.
+`.github/workflows/deploy.yml` runs on push to `main`: builds an ARM64 image and pushes it to `ghcr.io/<actor>/blog` tagged with the commit SHA, then writes that tag into `manifests/blog/base/kustomization.yaml` of the `homelab-k8s` repository. ArgoCD notices the commit and rolls the new image out to the cluster — CI never touches the running environment. `GITHUB_SHA` is used as `STYLES_HASH` for cache-busting static assets.
+
+Runtime configuration lives in a SOPS-encrypted Kubernetes Secret, not in a deploy-time `.env`. Static files are collected into the image at build time and served by whitenoise, so nothing is copied to a host.
