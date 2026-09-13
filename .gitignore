@@ -66,3 +66,5 @@ docs/
 
 # Collected static files (built at deploy time)
 staticfiles/
+.cache/
+--full-page
