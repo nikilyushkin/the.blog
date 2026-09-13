@@ -47,9 +47,9 @@ jobs:
     permissions:
       contents: read
 
-    # Деплой идёт через ArgoCD: раскатывает он, а не CI. Задача этого шага —
-    # записать новый тег образа в манифест, остальное сделает кластер.
-    # Раньше здесь были rsync и ssh на виртуалку — её больше нет.
+    # ArgoCD performs the rollout, not CI. This job only records the new
+    # image tag in the manifest; the cluster does the rest. This used to be
+    # rsync and ssh to a VM, which no longer exists.
     steps:
       - name: Checkout GitOps repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -64,17 +64,17 @@ jobs:
           f=manifests/blog/base/kustomization.yaml
           old=$(grep -A1 'name: ghcr.io/nikilyushkin/blog' "$f" | grep newTag | awk '{print $2}')
           if [ "$old" = "$GITHUB_SHA" ]; then
-            echo "Тег уже $GITHUB_SHA, коммитить нечего"
+            echo "Tag already at $GITHUB_SHA, nothing to commit"
             exit 0
           fi
           sed -i "s|newTag: .*|newTag: $GITHUB_SHA|" "$f"
           echo "  $old -> $GITHUB_SHA"
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "chore(blog): образ $(echo $GITHUB_SHA | cut -c1-12)"
+          git commit -am "chore(blog): image $(echo $GITHUB_SHA | cut -c1-12)"
           git push origin main
 
       - name: Summary
         run: |
-          echo "Образ: ghcr.io/${{ github.actor }}/blog:${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-          echo "Тег записан в homelab-k8s, ArgoCD раскатает сам." >> $GITHUB_STEP_SUMMARY
+          echo "Image: ghcr.io/${{ github.actor }}/blog:${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "Tag written to homelab-k8s; ArgoCD will roll it out." >> $GITHUB_STEP_SUMMARY
